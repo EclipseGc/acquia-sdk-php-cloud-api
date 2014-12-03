@@ -14,6 +14,39 @@ interface SiteInterface {
    */
   public function getSiteId();
 
+  /**
+   * @return string
+   */
+  public function getName();
+
+  /**
+   * @return int
+   */
+  public function getProductionMode();
+
+  /**
+   * @return string
+   */
+  public function getTitle();
+
+  /**
+   * @return string
+   */
+  public function getUnixUsername();
+
+  /**
+   * @return string
+   */
+  public function getVcsType();
+
+  /**
+   * @return string
+   */
+  public function getVcsUrl();
+
+  /**
+   * @return mixed
+   */
   public function getTasks();
 
 } 

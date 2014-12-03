@@ -67,12 +67,57 @@ class Site implements SiteInterface {
   }
 
   /**
-   * @return string
+   * {@inheritdoc}
    */
   public function getSiteId() {
     return $this->siteId;
   }
 
+  /**
+   * @return string
+   */
+  public function getName() {
+    return $this->name;
+  }
+
+  /**
+   * @return int
+   */
+  public function getProductionMode() {
+    return $this->productionMode;
+  }
+
+  /**
+   * @return string
+   */
+  public function getTitle() {
+    return $this->title;
+  }
+
+  /**
+   * @return string
+   */
+  public function getUnixUsername() {
+    return $this->unixUsername;
+  }
+
+  /**
+   * @return string
+   */
+  public function getVcsType() {
+    return $this->vcsType;
+  }
+
+  /**
+   * @return string
+   */
+  public function getVcsUrl() {
+    return $this->vcsUrl;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public function getTasks() {
     return $this->client->get(['sites/{site}/tasks.json', ['site' => $this->getSiteId()]])->json();
   }
