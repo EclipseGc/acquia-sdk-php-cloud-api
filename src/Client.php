@@ -1,17 +1,25 @@
 <?php
 /**
  * @file
- * Contains \Component5\CloudSDK\Client.
+ * Contains \Acquia\Cloud\API\Client.
  */
 
 namespace Acquia\Cloud\Api;
 
+use Acquia\Cloud\Api\SDK\Sites;
 use GuzzleHttp\Client as GuzzleClient;
 
-class Client extends GuzzleClient {
+class Client {
 
   const BASE_URL         = 'https://cloudapi.acquia.com/{version}/';
   const BASE_PATH        = 'v1';
+
+  /**
+   * The Guzzle Client through which we will proxy our calls.
+   *
+   * @var \GuzzleHttp\Client
+   */
+  protected $client;
 
   public function __construct($user, $pass) {
     $config = [
@@ -20,7 +28,7 @@ class Client extends GuzzleClient {
         'auth'    => [$user, $pass],
       ],
     ];
-    parent::__construct($config);
+    $this->client = new GuzzleClient($config);
   }
 
   public function getAliases() {
@@ -28,7 +36,7 @@ class Client extends GuzzleClient {
   }
 
   public function getSites() {
-    return $this->get('sites.json')->json();
+    return new Sites($this->client);
   }
 
   public function getSiteTasks($site) {
