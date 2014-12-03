@@ -21,6 +21,8 @@ class Client {
    */
   protected $client;
 
+  protected $sites;
+
   public function __construct($user, $pass) {
     $config = [
       'base_url' => [$this::BASE_URL, ['version' => $this::BASE_PATH]],
@@ -39,10 +41,10 @@ class Client {
    * @return \Acquia\Cloud\Api\SDK\SiteInterface[]
    */
   public function getSites() {
-    return new Sites($this->client);
+    if (!isset($this->sites)) {
+      $this->sites = new Sites($this->client);
+    }
+    return $this->sites;
   }
 
-  public function getSiteTasks($site) {
-    return $this->get(['sites/{site}/tasks.json', ['site' => $site]])->json();
-  }
 }

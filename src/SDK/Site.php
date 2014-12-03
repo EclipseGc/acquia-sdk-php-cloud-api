@@ -6,6 +6,7 @@
 
 namespace Acquia\Cloud\Api\SDK;
 
+use Acquia\Cloud\Api\SDK\Envs\Envs;
 use Acquia\Cloud\Api\SDK\Task\Task;
 use GuzzleHttp\Client;
 
@@ -121,10 +122,26 @@ class Site implements SiteInterface {
    */
   public function getTasks() {
     $tasks = [];
-    foreach ($this->client->get(['sites/{site}/tasks.json', ['site' => $this->getSiteId()]])->json() as $offset => $data) {
-      $tasks[$offset] = new Task($data['id'], $this->getSiteId(), $this->client, $data);
+    foreach ($this->client->get(['sites/{site}/tasks.json', ['site' => $this->getSiteId()]])->json() as $data) {
+      $tasks[$data['id']] = new Task($data['id'], $this->getSiteId(), $this->client, $data);
     }
     return $tasks;
+  }
+
+  public function getTask($id) {
+    return new Task($id, $this->getSiteId(), $this->client);
+  }
+
+  public function getEnvs() {
+    $envs = [];
+    foreach ($this->client->get(['sites/{site}/envs.json', ['site' => $this->getSiteId()]])->json() as $data) {
+      $envs[$data['name']] = new Envs($data['name'], $this->getSiteId(), $this->client, $data);
+    }
+    return $envs;
+  }
+
+  public function getEnv($name) {
+    return new Envs($name, $this->getSiteId(), $this->client);
   }
 
 }
