@@ -7,6 +7,7 @@
 namespace Acquia\Cloud\Api\SDK\Envs;
 
 
+use Acquia\Cloud\Api\SDK\Task\Task;
 use GuzzleHttp\Client;
 
 class Envs implements EnvsInterface {
@@ -140,6 +141,32 @@ class Envs implements EnvsInterface {
    */
   public function getVcsPath() {
     return $this->vcsPath;
+  }
+
+  public function getLogStream() {
+    print var_export($this->client->get(['sites/{site}/envs/{env}/logstream.json', ['site' => $this->getSiteId(), 'env' => $this->getName()]])->json(), TRUE);
+  }
+
+  public function enableLiveDev() {
+    // @todo the livedev param appears to always be disabled. Need to figure
+    // out why so we can appropriately check before just firing a new task.
+    //if ($this->livedev == 'disabled') {
+      $data = $this->client->post(['sites/{site}/envs/{env}/livedev/enable.json', ['site' => $this->getSiteId(), 'env' => $this->getName()]])->json();
+      return new Task($data['id'], $this->getSiteId(), $this->client, $data);
+    //}
+  }
+
+  public function disableLiveDev() {
+    // @todo the livedev param appears to always be disabled. Need to figure
+    // out why so we can appropriately check before just firing a new task.
+    //if ($this->livedev == 'enabled') {
+    $data = $this->client->post(['sites/{site}/envs/{env}/livedev/disable.json', ['site' => $this->getSiteId(), 'env' => $this->getName()]])->json();
+    return new Task($data['id'], $this->getSiteId(), $this->client, $data);
+    //}
+  }
+
+  public function getServers() {
+    return $this->client->get(['sites/{site}/envs/{env}/servers.json', ['site' => $this->getSiteId(), 'env' => $this->getName()]])->json();
   }
 
 }
