@@ -32,9 +32,12 @@ class Client {
   }
 
   public function getAliases() {
-    return $this->get('me/drushrc.json')->json();
+    return $this->client->get('me/drushrc.json')->json();
   }
 
+  /**
+   * @return \Acquia\Cloud\Api\SDK\SiteInterface[]
+   */
   public function getSites() {
     return new Sites($this->client);
   }

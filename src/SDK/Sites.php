@@ -56,7 +56,8 @@ class Sites implements \ArrayAccess {
   /**
    * Implements \ArrayAccess::offsetGet().
    *
-   * return |Acquia\Cloud\Api\SDK\SiteInterface
+   * @param mixed $offset
+   * @return null|\Acquia\Cloud\Api\SDK\SiteInterface
    */
   public function offsetGet($offset) {
     if (isset($this->sites[$offset])) {
