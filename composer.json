@@ -1,0 +1,24 @@
+{
+    "name": "acquia/acquia-sdk-php-cloud-api",
+    "type": "library",
+    "description": "Acquia Cloud API component for the Acquia SDK for PHP.",
+    "keywords": ["acquia"],
+    "homepage": "https://github.com/acquia/acquia-sdk-php",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "See contributors",
+            "homepage": "https://github.com/acquia/acquia-sdk-php/graphs/contributors"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.0",
+        "guzzlehttp/guzzle": "4.1.*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Acquia\\Cloud\\Api\\": "src/"
+        }
+    }
+}
+
