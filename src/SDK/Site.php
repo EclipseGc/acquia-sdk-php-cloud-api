@@ -6,6 +6,7 @@
 
 namespace Acquia\Cloud\Api\SDK;
 
+use Acquia\Cloud\Api\SDK\Task\Task;
 use GuzzleHttp\Client;
 
 class Site implements SiteInterface {
@@ -119,7 +120,11 @@ class Site implements SiteInterface {
    * {@inheritdoc}
    */
   public function getTasks() {
-    return $this->client->get(['sites/{site}/tasks.json', ['site' => $this->getSiteId()]])->json();
+    $tasks = [];
+    foreach ($this->client->get(['sites/{site}/tasks.json', ['site' => $this->getSiteId()]])->json() as $offset => $data) {
+      $tasks[$offset] = new Task($data['id'], $this->getSiteId(), $this->client, $data);
+    }
+    return $tasks;
   }
 
 }

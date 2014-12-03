@@ -45,7 +45,7 @@ interface SiteInterface {
   public function getVcsUrl();
 
   /**
-   * @return mixed
+   * @return \Acquia\Cloud\Api\SDK\Task\TaskInterface[]
    */
   public function getTasks();
 
