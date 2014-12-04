@@ -7,6 +7,7 @@
 namespace Acquia\Cloud\Api\SDK\Envs;
 
 
+use Acquia\Cloud\Api\SDK\Server\Server;
 use Acquia\Cloud\Api\SDK\Task\Task;
 use GuzzleHttp\Client;
 
@@ -144,7 +145,7 @@ class Envs implements EnvsInterface {
   }
 
   public function getLogStream() {
-    print var_export($this->client->get(['sites/{site}/envs/{env}/logstream.json', ['site' => $this->getSiteId(), 'env' => $this->getName()]])->json(), TRUE);
+    return $this->client->get(['sites/{site}/envs/{env}/logstream.json', ['site' => $this->getSiteId(), 'env' => $this->getName()]])->json();
   }
 
   public function enableLiveDev() {
@@ -166,7 +167,11 @@ class Envs implements EnvsInterface {
   }
 
   public function getServers() {
-    return $this->client->get(['sites/{site}/envs/{env}/servers.json', ['site' => $this->getSiteId(), 'env' => $this->getName()]])->json();
+    $servers = [];
+    foreach ($this->client->get(['sites/{site}/envs/{env}/servers.json', ['site' => $this->getSiteId(), 'env' => $this->getName()]])->json() as $server) {
+      $servers[$server['name']] = new Server($server['name'], $this->getName(), $this->getSiteId(), $this->client, $server);
+    }
+    return $servers;
   }
 
 }

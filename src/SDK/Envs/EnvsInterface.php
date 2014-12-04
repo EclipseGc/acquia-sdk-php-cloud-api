@@ -64,4 +64,9 @@ interface EnvsInterface {
    */
   public function disableLiveDev();
 
+  /**
+   * @return \Acquia\Cloud\Api\SDK\Server\ServerInterface[]
+   */
+  public function getServers();
+
 }
