@@ -69,4 +69,12 @@ interface EnvsInterface {
    */
   public function getServers();
 
+  /**
+   * @param $name
+   *   The name of the server you wish to retrieve.
+   *
+   * @return \Acquia\Cloud\Api\SDK\Server\ServerInterface
+   */
+  public function getServer($name);
+
 }

@@ -174,4 +174,8 @@ class Envs implements EnvsInterface {
     return $servers;
   }
 
+  public function getServer($name) {
+    return new Server($name, $this->getName(), $this->getSiteId(), $this->client);
+  }
+
 }
