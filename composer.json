@@ -1,10 +1,10 @@
 {
-    "name": "acquia/acquia-sdk-php-cloud-api",
+    "name": "eclipsegc/acquia-sdk-php-cloud-api",
     "type": "library",
     "description": "Acquia Cloud API component for the Acquia SDK for PHP.",
     "keywords": ["acquia"],
-    "homepage": "https://github.com/acquia/acquia-sdk-php",
-    "license": "MIT",
+    "homepage": "https://github.com/EclipseGc/acquia-sdk-php-cloud-api",
+    "license": "GPL-2.0+",
     "authors": [
         {
             "name": "See contributors",
