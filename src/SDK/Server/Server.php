@@ -7,9 +7,12 @@
 namespace Acquia\Cloud\Api\SDK\Server;
 
 
+use Acquia\Cloud\Api\SDK\RequestTrait;
 use GuzzleHttp\Client;
 
 class Server implements ServerInterface {
+
+  use RequestTrait;
 
   /**
    * The server name.
@@ -31,13 +34,6 @@ class Server implements ServerInterface {
    * @var string
    */
   protected $siteId;
-
-  /**
-   * The Guzzle client.
-   *
-   * @var \GuzzleHttp\Client
-   */
-  protected $client;
 
   /**
    * The fully qualified domain name of this server.
@@ -65,7 +61,7 @@ class Server implements ServerInterface {
    *
    * @var string
    */
-  protected $amiTtype;
+  protected $amiType;
 
   /**
    * The Amazon EC2 region of this server.
@@ -95,9 +91,9 @@ class Server implements ServerInterface {
     $this->name = $server;
     $this->env = $env;
     $this->siteId = $site_id;
-    $this->client = $client;
+    $this->client($client);
     if (array_diff_key(array_values($this->defaults), $data)) {
-      $data = $this->client->get(['sites/{site}/envs/{env}/servers/{server}.json', ['site' => $site_id, 'env' => $env, 'server' => $server]])->json();
+      $data = $this->request(['sites/{site}/envs/{env}/servers/{server}.json', ['site' => $site_id, 'env' => $env, 'server' => $server]])->json();
     }
     $this->fqdn = $data['fqdn'];
     $this->services = $data['services'];
@@ -112,21 +108,21 @@ class Server implements ServerInterface {
    * @return string
    */
   public function getAmiType() {
-    return $this->ami_type;
+    return $this->amiType;
   }
 
   /**
    * @return string
    */
   public function getEc2AvailabilityZone() {
-    return $this->ec2_availability_zone;
+    return $this->ec2AvailabilityZone;
   }
 
   /**
    * @return string
    */
   public function getEc2Region() {
-    return $this->ec2_region;
+    return $this->ec2Region;
   }
 
   /**

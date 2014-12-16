@@ -7,11 +7,14 @@
 namespace Acquia\Cloud\Api\SDK\Envs;
 
 
+use Acquia\Cloud\Api\SDK\RequestTrait;
 use Acquia\Cloud\Api\SDK\Server\Server;
 use Acquia\Cloud\Api\SDK\Task\Task;
 use GuzzleHttp\Client;
 
 class Envs implements EnvsInterface {
+
+  use RequestTrait;
 
   /**
    * The site identifier.
@@ -74,10 +77,10 @@ class Envs implements EnvsInterface {
   public function __construct($name, $site_id, Client $client, array $data = []) {
     $this->name = $name;
     $this->siteId = $site_id;
-    $this->client = $client;
+    $this->client($client);
     // If we're missing any of the expected data, get the data manually.
     if (array_diff_key($this->defaults, $data)) {
-      $data = $this->client->get(['sites/{site}/envs/{env}.json', ['site' => $site_id, 'env' => $name]])->json();
+      $data = $this->request(['sites/{site}/envs/{env}.json', ['site' => $site_id, 'env' => $name]])->json();
     }
 
     $this->name = $data['name'];
@@ -145,15 +148,15 @@ class Envs implements EnvsInterface {
   }
 
   public function getLogStream() {
-    return $this->client->get(['sites/{site}/envs/{env}/logstream.json', ['site' => $this->getSiteId(), 'env' => $this->getName()]])->json();
+    return $this->request(['sites/{site}/envs/{env}/logstream.json', ['site' => $this->getSiteId(), 'env' => $this->getName()]])->json();
   }
 
   public function enableLiveDev() {
     // @todo the livedev param appears to always be disabled. Need to figure
     // out why so we can appropriately check before just firing a new task.
     //if ($this->livedev == 'disabled') {
-      $data = $this->client->post(['sites/{site}/envs/{env}/livedev/enable.json', ['site' => $this->getSiteId(), 'env' => $this->getName()]])->json();
-      return new Task($data['id'], $this->getSiteId(), $this->client, $data);
+      $data = $this->client()->post(['sites/{site}/envs/{env}/livedev/enable.json', ['site' => $this->getSiteId(), 'env' => $this->getName()]])->json();
+      return new Task($data['id'], $this->getSiteId(), $this->client(), $data);
     //}
   }
 
@@ -161,21 +164,21 @@ class Envs implements EnvsInterface {
     // @todo the livedev param appears to always be disabled. Need to figure
     // out why so we can appropriately check before just firing a new task.
     //if ($this->livedev == 'enabled') {
-    $data = $this->client->post(['sites/{site}/envs/{env}/livedev/disable.json', ['site' => $this->getSiteId(), 'env' => $this->getName()]])->json();
-    return new Task($data['id'], $this->getSiteId(), $this->client, $data);
+    $data = $this->client()->post(['sites/{site}/envs/{env}/livedev/disable.json', ['site' => $this->getSiteId(), 'env' => $this->getName()]])->json();
+    return new Task($data['id'], $this->getSiteId(), $this->client(), $data);
     //}
   }
 
   public function getServers() {
     $servers = [];
-    foreach ($this->client->get(['sites/{site}/envs/{env}/servers.json', ['site' => $this->getSiteId(), 'env' => $this->getName()]])->json() as $server) {
-      $servers[$server['name']] = new Server($server['name'], $this->getName(), $this->getSiteId(), $this->client, $server);
+    foreach ($this->request(['sites/{site}/envs/{env}/servers.json', ['site' => $this->getSiteId(), 'env' => $this->getName()]])->json() as $server) {
+      $servers[$server['name']] = new Server($server['name'], $this->getName(), $this->getSiteId(), $this->client(), $server);
     }
     return $servers;
   }
 
   public function getServer($name) {
-    return new Server($name, $this->getName(), $this->getSiteId(), $this->client);
+    return new Server($name, $this->getName(), $this->getSiteId(), $this->client());
   }
 
 }

@@ -11,19 +11,14 @@ use GuzzleHttp\Client;
 
 class Sites implements \ArrayAccess {
 
+  use RequestTrait;
+
   /**
    * The array of sites for this subscription.
    *
    * @var array
    */
   protected $sites;
-
-  /**
-   * A Guzzle Client through which to proxy further requests.
-   *
-   * @var \GuzzleHttp\Client
-   */
-  protected $client;
 
   /**
    * The class to instantiate for your sites.
@@ -41,8 +36,8 @@ class Sites implements \ArrayAccess {
       // @todo throw custom exception and make the string better.
       throw new \Exception('The $site_class must implement \Acquia\Cloud\Api\SDK\SiteInterface');
     }
-    $this->client = $client;
-    $this->sites = $this->client->get('sites.json')->json();
+    $this->client($client);
+    $this->sites = $this->request('sites.json')->json();
     $this->siteClass = $site_class;
   }
 
@@ -62,7 +57,7 @@ class Sites implements \ArrayAccess {
   public function offsetGet($offset) {
     if (isset($this->sites[$offset])) {
       if (!$this->sites[$offset] instanceof $this->siteClass) {
-        $this->sites[$offset] = new $this->siteClass($this->sites[$offset], $this->client);
+        $this->sites[$offset] = new $this->siteClass($this->sites[$offset], $this->client());
       }
       return $this->sites[$offset];
     }

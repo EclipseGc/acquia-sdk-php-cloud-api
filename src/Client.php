@@ -6,20 +6,16 @@
 
 namespace Acquia\Cloud\Api;
 
+use Acquia\Cloud\Api\SDK\RequestTrait;
 use Acquia\Cloud\Api\SDK\Sites;
 use GuzzleHttp\Client as GuzzleClient;
 
 class Client {
 
+  use RequestTrait;
+
   const BASE_URL         = 'https://cloudapi.acquia.com/{version}/';
   const BASE_PATH        = 'v1';
-
-  /**
-   * The Guzzle Client through which we will proxy our calls.
-   *
-   * @var \GuzzleHttp\Client
-   */
-  protected $client;
 
   protected $sites;
 
@@ -30,11 +26,11 @@ class Client {
         'auth'    => [$user, $pass],
       ],
     ];
-    $this->client = new GuzzleClient($config);
+    $this->client(new GuzzleClient($config));
   }
 
   public function getAliases() {
-    return $this->client->get('me/drushrc.json')->json();
+    return $this->request('me/drushrc.json')->json();
   }
 
   /**
@@ -42,7 +38,7 @@ class Client {
    */
   public function getSites() {
     if (!isset($this->sites)) {
-      $this->sites = new Sites($this->client);
+      $this->sites = new Sites($this->client());
     }
     return $this->sites;
   }

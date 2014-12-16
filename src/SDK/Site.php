@@ -12,19 +12,14 @@ use GuzzleHttp\Client;
 
 class Site implements SiteInterface {
 
+  use RequestTrait;
+
   /**
    * The site identifier.
    *
    * @var string
    */
   protected $siteId;
-
-  /**
-   * A Guzzle Client through which to proxy further requests.
-   *
-   * @var \GuzzleHttp\Client
-   */
-  protected $client;
 
   /**
    * @var string
@@ -58,8 +53,8 @@ class Site implements SiteInterface {
 
   function __construct($site_id, Client $client) {
     $this->siteId = $site_id;
-    $this->client = $client;
-    $data = $this->client->get(['sites/{site}.json', ['site' => $this->getSiteId()]])->json();
+    $this->client($client);
+    $data = $this->request(['sites/{site}.json', ['site' => $this->getSiteId()]])->json();
     $this->title = $data['title'];
     $this->name = $data['name'];
     $this->productionMode = $data['production_mode'];
@@ -122,26 +117,26 @@ class Site implements SiteInterface {
    */
   public function getTasks() {
     $tasks = [];
-    foreach ($this->client->get(['sites/{site}/tasks.json', ['site' => $this->getSiteId()]])->json() as $data) {
-      $tasks[$data['id']] = new Task($data['id'], $this->getSiteId(), $this->client, $data);
+    foreach ($this->request(['sites/{site}/tasks.json', ['site' => $this->getSiteId()]])->json() as $data) {
+      $tasks[$data['id']] = new Task($data['id'], $this->getSiteId(), $this->client(), $data);
     }
     return $tasks;
   }
 
   public function getTask($id) {
-    return new Task($id, $this->getSiteId(), $this->client);
+    return new Task($id, $this->getSiteId(), $this->client());
   }
 
   public function getEnvs() {
     $envs = [];
-    foreach ($this->client->get(['sites/{site}/envs.json', ['site' => $this->getSiteId()]])->json() as $data) {
-      $envs[$data['name']] = new Envs($data['name'], $this->getSiteId(), $this->client, $data);
+    foreach ($this->request(['sites/{site}/envs.json', ['site' => $this->getSiteId()]])->json() as $data) {
+      $envs[$data['name']] = new Envs($data['name'], $this->getSiteId(), $this->client(), $data);
     }
     return $envs;
   }
 
   public function getEnv($name) {
-    return new Envs($name, $this->getSiteId(), $this->client);
+    return new Envs($name, $this->getSiteId(), $this->client());
   }
 
 }
