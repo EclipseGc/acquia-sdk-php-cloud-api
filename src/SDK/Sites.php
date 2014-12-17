@@ -7,7 +7,7 @@
 namespace Acquia\Cloud\Api\SDK;
 
 
-use GuzzleHttp\Client;
+use Acquia\Cloud\Api\ObjectFactoryInterface;
 
 class Sites implements \ArrayAccess {
 
@@ -21,24 +21,17 @@ class Sites implements \ArrayAccess {
   protected $sites;
 
   /**
-   * The class to instantiate for your sites.
-   * @var string
+   * @var \Acquia\Cloud\Api\ObjectFactoryInterface
    */
-  protected $siteClass;
+  protected $factory;
 
   /**
-   * @param Client $client
-   * @param string $site_class
-   * @throws \Exception
+   * @param \Acquia\Cloud\Api\ObjectFactoryInterface $factory
+   * @param array $sites
    */
-  public function __construct(Client $client, $site_class = '\Acquia\Cloud\Api\SDK\Site') {
-    if (!in_array("Acquia\\Cloud\\Api\\SDK\\SiteInterface", class_implements($site_class))) {
-      // @todo throw custom exception and make the string better.
-      throw new \Exception('The $site_class must implement \Acquia\Cloud\Api\SDK\SiteInterface');
-    }
-    $this->client($client);
-    $this->sites = $this->request('sites.json')->json();
-    $this->siteClass = $site_class;
+  public function __construct(ObjectFactoryInterface $factory, array $sites) {
+    $this->factory = $factory;
+    $this->sites = $sites;
   }
 
   /**
@@ -52,16 +45,16 @@ class Sites implements \ArrayAccess {
    * Implements \ArrayAccess::offsetGet().
    *
    * @param mixed $offset
-   * @return null|\Acquia\Cloud\Api\SDK\SiteInterface
+   * @return NULL|\Acquia\Cloud\Api\SDK\SiteInterface
    */
   public function offsetGet($offset) {
     if (isset($this->sites[$offset])) {
-      if (!$this->sites[$offset] instanceof $this->siteClass) {
-        $this->sites[$offset] = new $this->siteClass($this->sites[$offset], $this->client());
+      if (!is_object($this->sites[$offset])) {
+        $this->sites[$offset] = $this->factory->getSite($this->sites[$offset]);
       }
       return $this->sites[$offset];
     }
-    return null;
+    return NULL;
   }
 
   /**

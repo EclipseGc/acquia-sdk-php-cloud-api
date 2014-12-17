@@ -18,9 +18,16 @@ class Client {
 
   protected $sitesClass = 'Acquia\Cloud\Api\SDK\Sites';
 
+  protected $objectFactory;
+
   protected $sites;
 
   public function __construct($user, $pass) {
+    $this->createGuzzleClient($user, $pass);
+    $this->objectFactory();
+  }
+
+  protected function createGuzzleClient($user, $pass) {
     $config = [
       'base_url' => [$this::BASE_URL, ['version' => $this::BASE_PATH]],
       'defaults' => [
@@ -28,6 +35,17 @@ class Client {
       ],
     ];
     $this->client(new GuzzleClient($config));
+  }
+
+  /**
+   * @param ObjectFactoryInterface $factory
+   * @return ObjectFactory
+   */
+  protected function objectFactory(ObjectFactoryInterface $factory = NULL) {
+    if (!isset($this->objectFactory)) {
+      $this->objectFactory = new ObjectFactory($this->client());
+    }
+    return $this->objectFactory;
   }
 
   public function getAliases() {
@@ -38,10 +56,7 @@ class Client {
    * @return \Acquia\Cloud\Api\SDK\SiteInterface[]
    */
   public function getSites() {
-    if (!isset($this->sites)) {
-      $this->sites = new $this->sitesClass($this->client());
-    }
-    return $this->sites;
+    return $this->objectFactory()->getSites();
   }
 
 }

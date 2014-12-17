@@ -6,9 +6,6 @@
 
 namespace Acquia\Cloud\Api\SDK\Task;
 
-
-use GuzzleHttp\Client;
-
 class Task implements TaskInterface {
 
   /**
@@ -20,11 +17,6 @@ class Task implements TaskInterface {
    * @var string
    */
   protected $siteId;
-
-  /**
-   * @var \GuzzleHttp\Client
-   */
-  protected $client;
 
   /**
    * A unix timestamp of the completed date of this task.
@@ -46,13 +38,6 @@ class Task implements TaskInterface {
    * @var string
    */
   protected $description;
-
-  /**
-   * The unique identifier for this task.
-   *
-   * @var int
-   */
-  protected $id;
 
   /**
    * The log message associated with this task.
@@ -102,43 +87,43 @@ class Task implements TaskInterface {
    * @var array
    */
   protected $defaults = array(
-    'completed' => NULL,
-    'created' => NULL,
-    'description' => NULL,
-    'id' => NULL,
-    'logs' => NULL,
-    'queue' => NULL,
-    'result' => NULL,
-    'sender' => NULL,
-    'started' => NULL,
-    'state' => NULL,
+    'completed',
+    'created',
+    'description',
+    'id',
+    'logs',
+    'queue',
+    'result',
+    'sender',
+    'started',
+    'state',
   );
 
   /**
    * @param int $task_id
    * @param string $site_id
-   * @param \GuzzleHttp\Client $client
-   * @param array $data
+   * @param $completed
+   * @param $created
+   * @param $description
+   * @param $logs
+   * @param $queue
+   * @param $result
+   * @param $sender
+   * @param $started
+   * @param $state
    */
-  public function __construct($task_id, $site_id, Client $client, array $data = array()) {
+  public function __construct($task_id, $site_id, $completed, $created, $description, $logs, $queue, $result, $sender, $started, $state) {
     $this->taskId = $task_id;
     $this->siteId = $site_id;
-    $this->client = $client;
-    // If we're missing any of the expected data, get the data manually.
-    if (array_diff_key($this->defaults, $data)) {
-      $data = $this->client->get(['sites/{site}/tasks/{task}.json', ['site' => $site_id, 'task' => $task_id]])->json();
-    }
-
-    $this->completed = $data['completed'];
-    $this->created = $data['created'];
-    $this->description = $data['description'];
-    $this->id = $data['id'];
-    $this->logs = $data['logs'];
-    $this->queue = $data['queue'];
-    $this->result = $data['result'];
-    $this->sender = $data['sender'];
-    $this->started = $data['started'];
-    $this->state = $data['state'];
+    $this->completed = $completed;
+    $this->created = $created;
+    $this->description = $description;
+    $this->logs = $logs;
+    $this->queue = $queue;
+    $this->result = $result;
+    $this->sender = $sender;
+    $this->started = $started;
+    $this->state = $state;
   }
 
   /**

@@ -12,11 +12,6 @@ interface SiteInterface {
   /**
    * @return string
    */
-  public function getSiteId();
-
-  /**
-   * @return string
-   */
   public function getName();
 
   /**

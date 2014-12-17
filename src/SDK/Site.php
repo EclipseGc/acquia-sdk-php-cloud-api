@@ -6,20 +6,14 @@
 
 namespace Acquia\Cloud\Api\SDK;
 
-use Acquia\Cloud\Api\SDK\Envs\Envs;
-use Acquia\Cloud\Api\SDK\Task\Task;
-use GuzzleHttp\Client;
+use Acquia\Cloud\Api\ObjectFactoryInterface;
 
 class Site implements SiteInterface {
 
-  use RequestTrait;
-
   /**
-   * The site identifier.
-   *
-   * @var string
+   * @var \Acquia\Cloud\Api\ObjectFactoryInterface
    */
-  protected $siteId;
+  protected $factory;
 
   /**
    * @var string
@@ -51,23 +45,14 @@ class Site implements SiteInterface {
    */
   protected $vcsUrl;
 
-  function __construct($site_id, Client $client) {
-    $this->siteId = $site_id;
-    $this->client($client);
-    $data = $this->request(['sites/{site}.json', ['site' => $this->getSiteId()]])->json();
-    $this->title = $data['title'];
-    $this->name = $data['name'];
-    $this->productionMode = $data['production_mode'];
-    $this->unixUsername = $data['unix_username'];
-    $this->vcsType = $data['vcs_type'];
-    $this->vcsUrl = $data['vcs_url'];
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function getSiteId() {
-    return $this->siteId;
+  function __construct(ObjectFactoryInterface $factory, $title, $name, $production_mode, $unix_username, $vcs_type, $vcs_url) {
+    $this->factory = $factory;
+    $this->title = $this;
+    $this->name = $name;
+    $this->productionMode = $production_mode;
+    $this->unixUsername = $unix_username;
+    $this->vcsType = $vcs_type;
+    $this->vcsUrl = $vcs_url;
   }
 
   /**
@@ -116,27 +101,19 @@ class Site implements SiteInterface {
    * {@inheritdoc}
    */
   public function getTasks() {
-    $tasks = [];
-    foreach ($this->request(['sites/{site}/tasks.json', ['site' => $this->getSiteId()]])->json() as $data) {
-      $tasks[$data['id']] = new Task($data['id'], $this->getSiteId(), $this->client(), $data);
-    }
-    return $tasks;
+    return $this->factory->getTasks($this->getName());
   }
 
   public function getTask($id) {
-    return new Task($id, $this->getSiteId(), $this->client());
+    return $this->factory->getTask($this->getName(), $id);
   }
 
   public function getEnvs() {
-    $envs = [];
-    foreach ($this->request(['sites/{site}/envs.json', ['site' => $this->getSiteId()]])->json() as $data) {
-      $envs[$data['name']] = new Envs($data['name'], $this->getSiteId(), $this->client(), $data);
-    }
-    return $envs;
+    return $this->factory->getEnvs($this->getName());
   }
 
-  public function getEnv($name) {
-    return new Envs($name, $this->getSiteId(), $this->client());
+  public function getEnv($env) {
+    return $this->factory->getEnv($this->getName(), $env);
   }
 
 }

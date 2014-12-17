@@ -7,14 +7,16 @@
 namespace Acquia\Cloud\Api\SDK\Envs;
 
 
-use Acquia\Cloud\Api\SDK\RequestTrait;
+use Acquia\Cloud\Api\ObjectFactoryInterface;
 use Acquia\Cloud\Api\SDK\Server\Server;
 use Acquia\Cloud\Api\SDK\Task\Task;
-use GuzzleHttp\Client;
 
 class Envs implements EnvsInterface {
 
-  use RequestTrait;
+  /**
+   * @var \Acquia\Cloud\Api\ObjectFactoryInterface
+   */
+  protected $factory;
 
   /**
    * The site identifier.
@@ -74,21 +76,15 @@ class Envs implements EnvsInterface {
     'livedev' => NULL,
   );
 
-  public function __construct($name, $site_id, Client $client, array $data = []) {
+  public function __construct(ObjectFactoryInterface $factory, $name, $site_id, $vcs_path, $ssh_host, $db_clusters, $default_domain, $livedev) {
+    $this->factory = $factory;
     $this->name = $name;
     $this->siteId = $site_id;
-    $this->client($client);
-    // If we're missing any of the expected data, get the data manually.
-    if (array_diff_key($this->defaults, $data)) {
-      $data = $this->request(['sites/{site}/envs/{env}.json', ['site' => $site_id, 'env' => $name]])->json();
-    }
-
-    $this->name = $data['name'];
-    $this->vcsPath = $data['vcs_path'];
-    $this->sshHost = $data['ssh_host'];
-    $this->dbClusters = $data['db_clusters'];
-    $this->defaultDomain = $data['default_domain'];
-    $this->livedev = $data['livedev'];
+    $this->vcsPath = $vcs_path;
+    $this->sshHost = $ssh_host;
+    $this->dbClusters = $db_clusters;
+    $this->defaultDomain = $default_domain;
+    $this->livedev = $livedev;
   }
 
   /**
@@ -148,37 +144,23 @@ class Envs implements EnvsInterface {
   }
 
   public function getLogStream() {
-    return $this->request(['sites/{site}/envs/{env}/logstream.json', ['site' => $this->getSiteId(), 'env' => $this->getName()]])->json();
+    return $this->factory->getLogStream($this->getSiteId(), $this->getName());
   }
 
   public function enableLiveDev() {
-    // @todo the livedev param appears to always be disabled. Need to figure
-    // out why so we can appropriately check before just firing a new task.
-    //if ($this->livedev == 'disabled') {
-      $data = $this->client()->post(['sites/{site}/envs/{env}/livedev/enable.json', ['site' => $this->getSiteId(), 'env' => $this->getName()]])->json();
-      return new Task($data['id'], $this->getSiteId(), $this->client(), $data);
-    //}
+    return $this->factory->enableLiveDev($this->getSiteId(), $this->getName());
   }
 
   public function disableLiveDev() {
-    // @todo the livedev param appears to always be disabled. Need to figure
-    // out why so we can appropriately check before just firing a new task.
-    //if ($this->livedev == 'enabled') {
-    $data = $this->client()->post(['sites/{site}/envs/{env}/livedev/disable.json', ['site' => $this->getSiteId(), 'env' => $this->getName()]])->json();
-    return new Task($data['id'], $this->getSiteId(), $this->client(), $data);
-    //}
+    return $this->factory->disableLiveDev($this->getSiteId(), $this->getName());
   }
 
   public function getServers() {
-    $servers = [];
-    foreach ($this->request(['sites/{site}/envs/{env}/servers.json', ['site' => $this->getSiteId(), 'env' => $this->getName()]])->json() as $server) {
-      $servers[$server['name']] = new Server($server['name'], $this->getName(), $this->getSiteId(), $this->client(), $server);
-    }
-    return $servers;
+    return $this->factory->getServers($this->getSiteId(), $this->getName());
   }
 
   public function getServer($name) {
-    return new Server($name, $this->getName(), $this->getSiteId(), $this->client());
+    return $this->factory->getServer($this->getSiteId(), $this->getName(), $name);
   }
 
 }

@@ -8,11 +8,8 @@ namespace Acquia\Cloud\Api\SDK\Server;
 
 
 use Acquia\Cloud\Api\SDK\RequestTrait;
-use GuzzleHttp\Client;
 
 class Server implements ServerInterface {
-
-  use RequestTrait;
 
   /**
    * The server name.
@@ -87,21 +84,17 @@ class Server implements ServerInterface {
     'ec2_availability_zone',
   );
 
-  function __construct($server, $env, $site_id, Client $client, array $data = []) {
+  function __construct($server, $env, $site_id, $fqdn, $services, $ami_type, $ec2_region, $ec2_availability_zone) {
     $this->name = $server;
     $this->env = $env;
     $this->siteId = $site_id;
-    $this->client($client);
-    if (array_diff_key(array_values($this->defaults), $data)) {
-      $data = $this->request(['sites/{site}/envs/{env}/servers/{server}.json', ['site' => $site_id, 'env' => $env, 'server' => $server]])->json();
-    }
-    $this->fqdn = $data['fqdn'];
-    $this->services = $data['services'];
+    $this->fqdn = $fqdn;
+    $this->services = $services;
     // @todo status is documented but doesn't appear available in the api.
     //$this->status = $data['status'];
-    $this->amiTtype = $data['ami_type'];
-    $this->ec2Region = $data['ec2_region'];
-    $this->ec2AvailabilityZone = $data['ec2_availability_zone'];
+    $this->amiType = $ami_type;
+    $this->ec2Region = $ec2_region;
+    $this->ec2AvailabilityZone = $ec2_availability_zone;
   }
 
   /**
