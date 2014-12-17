@@ -7,7 +7,6 @@
 namespace Acquia\Cloud\Api;
 
 use Acquia\Cloud\Api\SDK\RequestTrait;
-use Acquia\Cloud\Api\SDK\Sites;
 use GuzzleHttp\Client as GuzzleClient;
 
 class Client {
@@ -16,6 +15,8 @@ class Client {
 
   const BASE_URL         = 'https://cloudapi.acquia.com/{version}/';
   const BASE_PATH        = 'v1';
+
+  protected $sitesClass = 'Acquia\Cloud\Api\SDK\Sites';
 
   protected $sites;
 
@@ -38,7 +39,7 @@ class Client {
    */
   public function getSites() {
     if (!isset($this->sites)) {
-      $this->sites = new Sites($this->client());
+      $this->sites = new $this->sitesClass($this->client());
     }
     return $this->sites;
   }
