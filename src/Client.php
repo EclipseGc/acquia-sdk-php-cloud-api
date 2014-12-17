@@ -24,7 +24,6 @@ class Client {
 
   public function __construct($user, $pass) {
     $this->createGuzzleClient($user, $pass);
-    $this->objectFactory();
   }
 
   protected function createGuzzleClient($user, $pass) {
@@ -38,18 +37,43 @@ class Client {
   }
 
   /**
-   * @param ObjectFactoryInterface $factory
-   * @return ObjectFactory
+   * Instantiates an ObjectFactory if one doesn't exist and returns the object.
+   *
+   * @return ObjectFactoryInterface
    */
-  protected function objectFactory(ObjectFactoryInterface $factory = NULL) {
+  protected function objectFactory() {
     if (!isset($this->objectFactory)) {
       $this->objectFactory = new ObjectFactory($this->client());
     }
     return $this->objectFactory;
   }
 
+  /**
+   * Returns the current ObjectFactory.
+   *
+   * @return ObjectFactoryInterface
+   */
+  public function getObjectFactory() {
+    return $this->objectFactory();
+  }
+
+  /**
+   * Sets a new ObjectFactory.
+   *
+   * @param ObjectFactoryInterface $factory
+   *
+   * @return $this
+   */
+  public function setObjectFactory(ObjectFactoryInterface $factory) {
+    $this->objectFactory = $factory;
+    return $this;
+  }
+
+  /**
+   * @return array|mixed
+   */
   public function getAliases() {
-    return $this->request('me/drushrc.json')->json();
+    return $this->objectFactory()->getAliases();
   }
 
   /**

@@ -7,6 +7,11 @@ namespace Acquia\Cloud\Api;
 
 interface ObjectFactoryInterface {
   /**
+   * @return array
+   */
+  public function getAliases();
+
+  /**
    * @return \Acquia\Cloud\Api\SDK\SiteInterface[]
    */
   public function getSites();

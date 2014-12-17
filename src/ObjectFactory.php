@@ -29,6 +29,13 @@ class ObjectFactory implements ObjectFactoryInterface {
   /**
    * {@inheritdoc}
    */
+  public function getAliases() {
+    return $this->request('me/drushrc.json')->json();
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public function getSites() {
     return new $this->objectTypes['sites']($this, $this->request('sites.json')->json());
   }
