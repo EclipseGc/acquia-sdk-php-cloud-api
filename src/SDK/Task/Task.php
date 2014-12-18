@@ -11,7 +11,7 @@ class Task implements TaskInterface {
   /**
    * @var int
    */
-  protected $taskId;
+  protected $id;
 
   /**
    * @var string
@@ -82,48 +82,46 @@ class Task implements TaskInterface {
   protected $state;
 
   /**
-   * The expected default keys in the $data parameter in the constructor.
-   *
-   * @var array
-   */
-  protected $defaults = array(
-    'completed',
-    'created',
-    'description',
-    'id',
-    'logs',
-    'queue',
-    'result',
-    'sender',
-    'started',
-    'state',
-  );
-
-  /**
-   * @param int $task_id
    * @param string $site_id
    * @param $completed
    * @param $created
    * @param $description
+   * @param $id
    * @param $logs
    * @param $queue
    * @param $result
    * @param $sender
    * @param $started
    * @param $state
+   * @internal param int $task_id
    */
-  public function __construct($task_id, $site_id, $completed, $created, $description, $logs, $queue, $result, $sender, $started, $state) {
-    $this->taskId = $task_id;
+  public function __construct($site_id, $completed, $created, $description, $id, $logs, $queue, $result, $sender, $started, $state) {
     $this->siteId = $site_id;
     $this->completed = $completed;
     $this->created = $created;
     $this->description = $description;
+    $this->id = $id;
     $this->logs = $logs;
     $this->queue = $queue;
     $this->result = $result;
     $this->sender = $sender;
     $this->started = $started;
     $this->state = $state;
+  }
+
+  public static function getDefaults() {
+    return [
+      'completed',
+      'created',
+      'description',
+      'id',
+      'logs',
+      'queue',
+      'result',
+      'sender',
+      'started',
+      'state',
+    ];
   }
 
   /**
@@ -194,13 +192,6 @@ class Task implements TaskInterface {
    */
   public function getState() {
     return $this->state;
-  }
-
-  /**
-   * @return int
-   */
-  public function getTaskId() {
-    return $this->taskId;
   }
 
   /**

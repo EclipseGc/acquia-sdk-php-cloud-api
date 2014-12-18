@@ -76,10 +76,10 @@ class Envs implements EnvsInterface {
     'livedev' => NULL,
   );
 
-  public function __construct(ObjectFactoryInterface $factory, $name, $site_id, $vcs_path, $ssh_host, $db_clusters, $default_domain, $livedev) {
+  public function __construct(ObjectFactoryInterface $factory, $site_id, $name, $vcs_path, $ssh_host, $db_clusters, $default_domain, $livedev) {
     $this->factory = $factory;
-    $this->name = $name;
     $this->siteId = $site_id;
+    $this->name = $name;
     $this->vcsPath = $vcs_path;
     $this->sshHost = $ssh_host;
     $this->dbClusters = $db_clusters;

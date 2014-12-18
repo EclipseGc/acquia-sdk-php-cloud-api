@@ -47,12 +47,23 @@ class Site implements SiteInterface {
 
   function __construct(ObjectFactoryInterface $factory, $title, $name, $production_mode, $unix_username, $vcs_type, $vcs_url) {
     $this->factory = $factory;
-    $this->title = $this;
+    $this->title = $title;
     $this->name = $name;
     $this->productionMode = $production_mode;
     $this->unixUsername = $unix_username;
     $this->vcsType = $vcs_type;
     $this->vcsUrl = $vcs_url;
+  }
+
+  public static function getDefaults() {
+    return [
+      'title',
+      'name',
+      'production_mode',
+      'unix_username',
+      'vcs_type',
+      'vcs_url',
+    ];
   }
 
   /**

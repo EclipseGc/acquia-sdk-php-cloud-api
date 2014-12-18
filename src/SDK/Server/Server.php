@@ -84,10 +84,10 @@ class Server implements ServerInterface {
     'ec2_availability_zone',
   );
 
-  function __construct($server, $env, $site_id, $fqdn, $services, $ami_type, $ec2_region, $ec2_availability_zone) {
-    $this->name = $server;
-    $this->env = $env;
+  function __construct($site_id, $env, $name, $fqdn, $services, $ami_type, $ec2_region, $ec2_availability_zone) {
     $this->siteId = $site_id;
+    $this->env = $env;
+    $this->name = $name;
     $this->fqdn = $fqdn;
     $this->services = $services;
     // @todo status is documented but doesn't appear available in the api.

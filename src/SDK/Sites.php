@@ -6,12 +6,9 @@
 
 namespace Acquia\Cloud\Api\SDK;
 
-
 use Acquia\Cloud\Api\ObjectFactoryInterface;
 
 class Sites implements \ArrayAccess {
-
-  use RequestTrait;
 
   /**
    * The array of sites for this subscription.
@@ -61,6 +58,12 @@ class Sites implements \ArrayAccess {
    * Implements \ArrayAccess::offsetSet().
    */
   public function offsetSet($offset, $value) {
+    if (isset($this->sites[$offset])) {
+      if ($value instanceof \Acquia\Cloud\Api\SDK\SiteInterface) {
+        $this->sites[$offset] = $value;
+      }
+      throw new \Exception('Setting site values is only allowed using a instance of a \Acquia\Cloud\Api\SDK\SiteInterface object.');
+    }
     // @todo throw a custom exception
     throw new \Exception('You cannot manually add or change sites.');
   }

@@ -26,6 +26,27 @@ class ObjectFactory implements ObjectFactoryInterface {
     $this->client($client);
   }
 
+  public function getObjectTypeClass($type) {
+    if (isset($this->objectTypes[$type])) {
+      return $this->objectTypes[$type];
+    }
+    throw new \Exception(sprintf('No object type %s', $type));
+  }
+
+  public function createObjectType($type, array $data = array()) {
+    $objectClass = $this->getObjectTypeClass($type);
+    $reflector = new \ReflectionClass($objectClass);
+    $data['factory'] = $this;
+    $arguments = [];
+    foreach ($reflector->getMethod('__construct')->getParameters() as $param) {
+      $param_name = $param->getName();
+      if (array_key_exists($param_name, $data)) {
+        $arguments[] = $data[$param_name];
+      }
+    }
+    return $reflector->newInstanceArgs($arguments);
+  }
+
   /**
    * {@inheritdoc}
    */
@@ -37,7 +58,10 @@ class ObjectFactory implements ObjectFactoryInterface {
    * {@inheritdoc}
    */
   public function getSites() {
-    return new $this->objectTypes['sites']($this, $this->request('sites.json')->json());
+    $data = [
+      'sites' => $this->request('sites.json')->json(),
+    ];
+    return $this->createObjectType('sites', $data);
   }
 
   /**
@@ -45,7 +69,7 @@ class ObjectFactory implements ObjectFactoryInterface {
    */
   public function getSite($site_id) {
     $data = $this->request(['sites/{site}.json', ['site' => $site_id]])->json();
-    return new $this->objectTypes['site']($this, $data['title'], $data['name'], $data['production_mode'], $data['unix_username'], $data['vcs_type'], $data['vcs_url']);
+    return $this->createObjectType('site', $data);
   }
 
   /**
@@ -54,7 +78,8 @@ class ObjectFactory implements ObjectFactoryInterface {
   public function getTasks($site_id) {
     $tasks = [];
     foreach ($this->request(['sites/{site}/tasks.json', ['site' => $site_id]])->json() as $data) {
-      $tasks[$data['id']] = $this->objectTypes['task']($data['id'], $site_id, $data['completed'], $data['created'], $data['description'], $data['logs'], $data['queue'], $data['result'], $data['sender'], $data['started'], $data['state']);
+      $data['site_id'] = $site_id;
+      $tasks[$data['id']] = $this->createObjectType('task', $data);
     }
     return $tasks;
   }
@@ -64,7 +89,8 @@ class ObjectFactory implements ObjectFactoryInterface {
    */
   public function getTask($site_id, $task_id) {
     $data = $this->request(['sites/{site}/tasks/{task}.json', ['site' => $site_id, 'task' => $task_id]])->json();
-    return new $this->objectTypes['task']($task_id, $site_id, $data['completed'], $data['created'], $data['description'], $data['logs'], $data['queue'], $data['result'], $data['sender'], $data['started'], $data['state']);
+    $data['site_id'] = $site_id;
+    return $this->createObjectType('task', $data);
   }
 
   /**
@@ -73,7 +99,8 @@ class ObjectFactory implements ObjectFactoryInterface {
   public function getEnvs($site_id) {
     $envs = [];
     foreach ($this->request(['sites/{site}/envs.json', ['site' => $site_id]])->json() as $id => $data) {
-      $envs[$id] =  new $this->objectTypes['envs']($this, $data['name'], $site_id, $data['vcs_path'], $data['ssh_host'], $data['db_clusters'], $data['default_domain'], $data['livedev']);
+      $data['site_id'] = $site_id;
+      $envs[$id] = $this->createObjectType('envs', $data);
     }
     return $envs;
   }
@@ -83,7 +110,8 @@ class ObjectFactory implements ObjectFactoryInterface {
    */
   public function getEnv($site_id, $name) {
     $data = $this->request(['sites/{site}/envs/{env}.json',['site' => $site_id, 'env' => $name]])->json();
-    return new $this->objectTypes['envs']($this, $name, $site_id, $data['vcs_path'], $data['ssh_host'], $data['db_clusters'], $data['default_domain'], $data['livedev']);
+    $data['site_id'] = $site_id;
+    return $this->createObjectType('envs', $data);
   }
 
   public function getLogStream($site_id, $name) {
@@ -94,27 +122,33 @@ class ObjectFactory implements ObjectFactoryInterface {
     // @todo the livedev param appears to always be disabled. Need to figure
     // out why so we can appropriately check before just firing a new task.
     $data = $this->client()->post(['sites/{site}/envs/{env}/livedev/enable.json', ['site' => $site_id, 'env' => $name]])->json();
-    return new $this->objectTypes['task']($data['id'], $site_id, $data['completed'], $data['created'], $data['description'], $data['logs'], $data['queue'], $data['result'], $data['sender'], $data['started'], $data['state']);
+    $data['site_id'] = $site_id;
+    return $this->createObjectType('task', $data);
   }
 
   public function disableLiveDev($site_id, $name) {
     // @todo the livedev param appears to always be disabled. Need to figure
     // out why so we can appropriately check before just firing a new task.
     $data = $this->client()->post(['sites/{site}/envs/{env}/livedev/disable.json', ['site' => $site_id, 'env' => $name]])->json();
-    return new $this->objectTypes['task']($data['id'], $site_id, $data['completed'], $data['created'], $data['description'], $data['logs'], $data['queue'], $data['result'], $data['sender'], $data['started'], $data['state']);
+    $data['site_id'] = $site_id;
+    return $this->createObjectType('task', $data);
   }
 
   public function getServers($site_id, $env) {
     $servers = [];
     foreach ($this->request(['sites/{site}/envs/{env}/servers.json', ['site' => $site_id, 'env' => $env]])->json() as $data) {
-      $servers[$data['name']] = new $this->objectTypes['server']($data['name'], $env, $site_id, $data['fqdn'], $data['services'], $data['ami_type'], $data['ec2_region'], $data['ec2_availability_zone']);
+      $data['site_id'] = $site_id;
+      $data['env'] = $env;
+      $servers[$data['name']] = $this->createObjectType('server', $data);
     }
     return $servers;
   }
 
   public function getServer($site_id, $env, $server) {
     $data = $this->request(['sites/{site}/envs/{env}/servers/{server}.json', ['site' => $site_id, 'env' => $env, 'server' => $server]])->json();
-    return new $this->objectTypes['server']($server, $env, $site_id, $data['fqdn'], $data['services'], $data['ami_type'], $data['ec2_region'], $data['ec2_availability_zone']);
+    $data['site_id'] = $site_id;
+    $data['env'] = $env;
+    return $this->createObjectType('server', $data);
   }
 
 }

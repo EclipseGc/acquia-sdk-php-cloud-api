@@ -60,11 +60,6 @@ interface TaskInterface {
   public function getState();
 
   /**
-   * @return int
-   */
-  public function getTaskId();
-
-  /**
    * @return string
    */
   public function getSiteId();
