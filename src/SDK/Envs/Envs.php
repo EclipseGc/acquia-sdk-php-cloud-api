@@ -67,15 +67,6 @@ class Envs implements EnvsInterface {
    */
   protected $livedev;
 
-  protected $defaults = array(
-    'name' => NULL,
-    'vcs_path' => NULL,
-    'ssh_host' => NULL,
-    'db_clusters' => NULL,
-    'default_domain' => NULL,
-    'livedev' => NULL,
-  );
-
   public function __construct(ObjectFactoryInterface $factory, $site_id, $name, $vcs_path, $ssh_host, $db_clusters, $default_domain, $livedev) {
     $this->factory = $factory;
     $this->siteId = $site_id;
@@ -99,13 +90,6 @@ class Envs implements EnvsInterface {
    */
   public function getDefaultDomain() {
     return $this->defaultDomain;
-  }
-
-  /**
-   * @return array
-   */
-  public function getDefaults() {
-    return $this->defaults;
   }
 
   /**
@@ -161,6 +145,17 @@ class Envs implements EnvsInterface {
 
   public function getServer($name) {
     return $this->factory->getServer($this->getSiteId(), $this->getName(), $name);
+  }
+
+  public function getData() {
+    return [
+      'name' => $this->getName(),
+      'vcs_path' => $this->getVcsPath(),
+      'ssh_host' => $this->getSshHost(),
+      'db_clusters' => $this->getDbClusters(),
+      'default_domain' => $this->getDefaultDomain(),
+      'livedev' => $this->getLivedev(),
+    ];
   }
 
 }

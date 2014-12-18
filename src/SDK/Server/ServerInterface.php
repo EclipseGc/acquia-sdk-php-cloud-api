@@ -5,7 +5,9 @@
  */
 namespace Acquia\Cloud\Api\SDK\Server;
 
-interface ServerInterface {
+use Acquia\Cloud\Api\DataInterface;
+
+interface ServerInterface extends DataInterface {
   /**
    * @return string
    */

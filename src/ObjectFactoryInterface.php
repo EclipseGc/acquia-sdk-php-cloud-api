@@ -26,31 +26,15 @@ interface ObjectFactoryInterface {
   public function getAliases();
 
   /**
-   * @return array
-   */
-  public function getAliasesData();
-
-  /**
    * @return \Acquia\Cloud\Api\SDK\SiteInterface[]
    */
   public function getSites();
-
-  /**
-   * @return array
-   */
-  public function getSitesData();
 
   /**
    * @param $site_id
    * @return \Acquia\Cloud\Api\SDK\SiteInterface
    */
   public function getSite($site_id);
-
-  /**
-   * @param $site_id
-   * @return array
-   */
-  public function getSiteData($site_id);
 
   /**
    * @param $site_id

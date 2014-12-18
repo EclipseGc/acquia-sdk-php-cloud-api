@@ -7,7 +7,9 @@
 namespace Acquia\Cloud\Api\SDK;
 
 
-interface SiteInterface {
+use Acquia\Cloud\Api\DataInterface;
+
+interface SiteInterface extends DataInterface {
 
   /**
    * @return string

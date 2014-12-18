@@ -77,7 +77,7 @@ class Client {
   }
 
   /**
-   * @return \Acquia\Cloud\Api\SDK\SiteInterface[]
+   * @return \Acquia\Cloud\Api\SDK\Sites|\Acquia\Cloud\Api\SDK\SiteInterface[]
    */
   public function getSites() {
     return $this->objectFactory()->getSites();

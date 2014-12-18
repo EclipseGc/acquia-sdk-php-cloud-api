@@ -7,7 +7,9 @@
 namespace Acquia\Cloud\Api\SDK\Task;
 
 
-interface TaskInterface {
+use Acquia\Cloud\Api\DataInterface;
+
+interface TaskInterface extends DataInterface {
 
   /**
    * @return int

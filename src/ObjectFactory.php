@@ -53,10 +53,6 @@ class ObjectFactory implements ObjectFactoryInterface {
    * {@inheritdoc}
    */
   public function getAliases() {
-    return $this->getAliasesData();
-  }
-
-  public function getAliasesData() {
     return $this->request('me/drushrc.json')->json();
   }
 
@@ -65,25 +61,17 @@ class ObjectFactory implements ObjectFactoryInterface {
    */
   public function getSites() {
     $data = [
-      'sites' => $this->getSitesData(),
+      'sites' => $this->request('sites.json')->json(),
     ];
     return $this->createObjectType('sites', $data);
-  }
-
-  public function getSitesData() {
-    return $this->request('sites.json')->json();
   }
 
   /**
    * {@inheritdoc}
    */
   public function getSite($site_id) {
-    $data = $this->getSiteData($site_id);
+    $data = $this->request(['sites/{site}.json', ['site' => $site_id]])->json();
     return $this->createObjectType('site', $data);
-  }
-
-  public function getSiteData($site_id) {
-    return $this->request(['sites/{site}.json', ['site' => $site_id]])->json();
   }
 
   /**

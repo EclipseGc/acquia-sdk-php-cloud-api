@@ -7,7 +7,9 @@
 namespace Acquia\Cloud\Api\SDK\Envs;
 
 
-interface EnvsInterface {
+use Acquia\Cloud\Api\DataInterface;
+
+interface EnvsInterface extends DataInterface {
 
   /**
    * @return array
@@ -18,11 +20,6 @@ interface EnvsInterface {
    * @return string
    */
   public function getDefaultDomain();
-
-  /**
-   * @return array
-   */
-  public function getDefaults();
 
   /**
    * @return string

@@ -160,5 +160,16 @@ class Server implements ServerInterface {
     return $this->status;
   }
 
+  public function getData() {
+    return [
+      'name' => $this->getName(),
+      'fqdn' => $this->getFqdn(),
+      'services' => $this->getServices(),
+      'status' => NULL,
+      'ami_type' => $this->getAmiType(),
+      'ec2_region' => $this->getEc2Region(),
+      'ec2_availability_zone' => $this->getEc2AvailabilityZone(),
+    ];
+  }
 
 } 

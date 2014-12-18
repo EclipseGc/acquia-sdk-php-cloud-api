@@ -55,17 +55,6 @@ class Site implements SiteInterface {
     $this->vcsUrl = $vcs_url;
   }
 
-  public static function getDefaults() {
-    return [
-      'title',
-      'name',
-      'production_mode',
-      'unix_username',
-      'vcs_type',
-      'vcs_url',
-    ];
-  }
-
   /**
    * @return string
    */
@@ -125,6 +114,16 @@ class Site implements SiteInterface {
 
   public function getEnv($env) {
     return $this->factory->getEnv($this->getName(), $env);
+  }
+
+  public function getData() {
+    return [
+      'title' => $this->getTitle(),
+      'name' => $this->getName(),
+      'production_mode' => $this->getProductionMode(),
+      'vcs_type' => $this->getVcsType(),
+      'vcs_url' => $this->getVcsUrl(),
+    ];
   }
 
 }

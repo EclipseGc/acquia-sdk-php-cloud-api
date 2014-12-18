@@ -6,9 +6,10 @@
 
 namespace Acquia\Cloud\Api\SDK;
 
+use Acquia\Cloud\Api\DataInterface;
 use Acquia\Cloud\Api\ObjectFactoryInterface;
 
-class Sites implements \ArrayAccess {
+class Sites implements \ArrayAccess, DataInterface {
 
   /**
    * The array of sites for this subscription.
@@ -74,6 +75,10 @@ class Sites implements \ArrayAccess {
   public function offsetUnset($offset) {
     // @todo throw a custom exception
     throw new \Exception('You can not unset any sites.');
+  }
+
+  public function getData() {
+    return $this->sites;
   }
 
 }

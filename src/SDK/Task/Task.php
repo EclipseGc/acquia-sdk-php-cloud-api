@@ -109,21 +109,6 @@ class Task implements TaskInterface {
     $this->state = $state;
   }
 
-  public static function getDefaults() {
-    return [
-      'completed',
-      'created',
-      'description',
-      'id',
-      'logs',
-      'queue',
-      'result',
-      'sender',
-      'started',
-      'state',
-    ];
-  }
-
   /**
    * @return int
    */
@@ -199,6 +184,24 @@ class Task implements TaskInterface {
    */
   public function getSiteId() {
     return $this->siteId;
+  }
+
+  /**
+   * @return array
+   */
+  public function getData() {
+    return [
+      'completed' => $this->getCompleted(),
+      'created' => $this->getCreated(),
+      'description' => $this->getDescription(),
+      'id' => $this->getId(),
+      'logs' => $this->getLogs(),
+      'queue' => $this->getQueue(),
+      'result' => $this->getResult(),
+      'sender' => $this->getSender(),
+      'started' => $this->getStarted(),
+      'state' => $this->getState(),
+    ];
   }
 
 }
