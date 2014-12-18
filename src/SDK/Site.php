@@ -121,6 +121,7 @@ class Site implements SiteInterface {
       'title' => $this->getTitle(),
       'name' => $this->getName(),
       'production_mode' => $this->getProductionMode(),
+      'unix_username' => $this->getUnixUsername(),
       'vcs_type' => $this->getVcsType(),
       'vcs_url' => $this->getVcsUrl(),
     ];
