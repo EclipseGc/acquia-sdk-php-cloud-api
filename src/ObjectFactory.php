@@ -36,7 +36,9 @@ class ObjectFactory implements ObjectFactoryInterface {
   public function createObjectType($type, array $data = array()) {
     $objectClass = $this->getObjectTypeClass($type);
     $reflector = new \ReflectionClass($objectClass);
-    $data['factory'] = $this;
+    if (!isset($data['factory'])) {
+      $data['factory'] = $this;
+    }
     $arguments = [];
     foreach ($reflector->getMethod('__construct')->getParameters() as $param) {
       $param_name = $param->getName();
@@ -51,6 +53,10 @@ class ObjectFactory implements ObjectFactoryInterface {
    * {@inheritdoc}
    */
   public function getAliases() {
+    return $this->getAliasesData();
+  }
+
+  public function getAliasesData() {
     return $this->request('me/drushrc.json')->json();
   }
 
@@ -59,17 +65,25 @@ class ObjectFactory implements ObjectFactoryInterface {
    */
   public function getSites() {
     $data = [
-      'sites' => $this->request('sites.json')->json(),
+      'sites' => $this->getSitesData(),
     ];
     return $this->createObjectType('sites', $data);
+  }
+
+  public function getSitesData() {
+    return $this->request('sites.json')->json();
   }
 
   /**
    * {@inheritdoc}
    */
   public function getSite($site_id) {
-    $data = $this->request(['sites/{site}.json', ['site' => $site_id]])->json();
+    $data = $this->getSiteData($site_id);
     return $this->createObjectType('site', $data);
+  }
+
+  public function getSiteData($site_id) {
+    return $this->request(['sites/{site}.json', ['site' => $site_id]])->json();
   }
 
   /**
