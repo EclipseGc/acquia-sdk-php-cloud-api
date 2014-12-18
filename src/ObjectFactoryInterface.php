@@ -26,7 +26,7 @@ interface ObjectFactoryInterface {
   public function getAliases();
 
   /**
-   * @return \Acquia\Cloud\Api\SDK\SiteInterface[]
+   * @return \Acquia\Cloud\Api\SDK\Sites|\Acquia\Cloud\Api\SDK\SiteInterface[]
    */
   public function getSites();
 
