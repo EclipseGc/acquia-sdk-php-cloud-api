@@ -18,6 +18,9 @@ trait RequestTrait {
    */
   protected function request($url) {
     $request = $this->client()->get($url);
+    if (!is_object($request)) {
+      var_export($request);
+    }
     if ($request->getStatusCode() != 200) {
       throw new \Exception(sprintf('Status code was not OK. %d returned instead.', $request->getStatusCode()));
     }
