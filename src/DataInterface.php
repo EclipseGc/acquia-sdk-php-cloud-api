@@ -14,4 +14,9 @@ interface DataInterface {
    */
   public function getData();
 
+  /**
+   * @return array
+   */
+  public static function getKeys();
+
 } 

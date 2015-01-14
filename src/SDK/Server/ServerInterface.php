@@ -52,4 +52,9 @@ interface ServerInterface extends DataInterface {
    * @return array
    */
   public function getServices();
+
+  /**
+   * @return array
+   */
+  public function getPhpProcs();
 }

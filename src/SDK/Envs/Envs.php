@@ -147,6 +147,26 @@ class Envs implements EnvsInterface {
     return $this->factory->getServer($this->getSiteId(), $this->getName(), $name);
   }
 
+  public function getDomains() {
+    return $this->factory->getDomains($this->getSiteId(), $this->getName());
+  }
+
+  public function getDomain($domain) {
+    return $this->factory->getDomain($this->getSiteId(), $this->getName(), $domain);
+  }
+
+  public function createDomain($domain) {
+    return $this->factory->createDomain($this->getSiteId(), $this->getName(), $domain);
+  }
+
+  public function installFromSource($source_file) {
+    return $this->factory->install($this->getSiteId(), $this->getName(), 'distro_url', $source_file);
+  }
+
+  public function installFromManifest($make_file) {
+    return $this->factory->install($this->getSiteId(), $this->getName(), 'make_url', $make_file);
+  }
+
   public function getData() {
     return [
       'name' => $this->getName(),
@@ -155,6 +175,20 @@ class Envs implements EnvsInterface {
       'db_clusters' => $this->getDbClusters(),
       'default_domain' => $this->getDefaultDomain(),
       'livedev' => $this->getLivedev(),
+    ];
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function getKeys() {
+    return [
+      'name',
+      'vcs_path',
+      'ssh_host',
+      'db_clusters',
+      'default_domain',
+      'livedev',
     ];
   }
 

@@ -7,9 +7,15 @@
 namespace Acquia\Cloud\Api\SDK\Server;
 
 
+use Acquia\Cloud\Api\ObjectFactoryInterface;
 use Acquia\Cloud\Api\SDK\RequestTrait;
 
 class Server implements ServerInterface {
+
+  /**
+   * @var \Acquia\Cloud\Api\ObjectFactoryInterface
+   */
+  protected $factory;
 
   /**
    * The server name.
@@ -84,7 +90,8 @@ class Server implements ServerInterface {
     'ec2_availability_zone',
   );
 
-  function __construct($site_id, $env, $name, $fqdn, $services, $ami_type, $ec2_region, $ec2_availability_zone) {
+  function __construct(ObjectFactoryInterface $factory, $site_id, $env, $name, $fqdn, $services, $ami_type, $ec2_region, $ec2_availability_zone) {
+    $this->factory = $factory;
     $this->siteId = $site_id;
     $this->env = $env;
     $this->name = $name;
@@ -160,6 +167,10 @@ class Server implements ServerInterface {
     return $this->status;
   }
 
+  public function getPhpProcs() {
+    return $this->factory->getPhpProcs($this->getSiteId(), $this->getEnv(), $this->getName());
+  }
+
   public function getData() {
     return [
       'name' => $this->getName(),
@@ -169,6 +180,21 @@ class Server implements ServerInterface {
       'ami_type' => $this->getAmiType(),
       'ec2_region' => $this->getEc2Region(),
       'ec2_availability_zone' => $this->getEc2AvailabilityZone(),
+    ];
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function getKeys() {
+    return [
+      'name',
+      'fqdn',
+      'services',
+      'status',
+      'ami_type',
+      'ec2_region',
+      'ec2_availability_zone',
     ];
   }
 

@@ -16,8 +16,8 @@ trait RequestTrait {
    * @return \GuzzleHttp\Message\ResponseInterface
    * @throws \Exception
    */
-  protected function request($url) {
-    $request = $this->client()->get($url);
+  protected function request($url, array $options = []) {
+    $request = $this->client()->get($url, $options);
     if (!is_object($request)) {
       var_export($request);
     }

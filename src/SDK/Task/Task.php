@@ -204,5 +204,20 @@ class Task implements TaskInterface {
     ];
   }
 
+  public static function getKeys() {
+    return [
+      'completed',
+      'created',
+      'description',
+      'id',
+      'logs',
+      'queue',
+      'result',
+      'sender',
+      'started',
+      'state',
+    ];
+  }
+
 }
 

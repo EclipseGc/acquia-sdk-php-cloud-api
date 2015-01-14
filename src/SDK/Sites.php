@@ -81,4 +81,10 @@ class Sites implements \ArrayAccess, DataInterface {
     return $this->sites;
   }
 
+  public static function getKeys() {
+    return [
+      'sites',
+    ];
+  }
+
 }

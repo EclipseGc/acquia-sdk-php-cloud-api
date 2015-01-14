@@ -116,6 +116,9 @@ class Site implements SiteInterface {
     return $this->factory->getEnv($this->getName(), $env);
   }
 
+  /**
+   * {@inheritdoc}
+   */
   public function getData() {
     return [
       'title' => $this->getTitle(),
@@ -124,6 +127,20 @@ class Site implements SiteInterface {
       'unix_username' => $this->getUnixUsername(),
       'vcs_type' => $this->getVcsType(),
       'vcs_url' => $this->getVcsUrl(),
+    ];
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function getKeys() {
+    return [
+      'title',
+      'name',
+      'production_mode',
+      'unix_username',
+      'vcs_type',
+      'vcs_url',
     ];
   }
 

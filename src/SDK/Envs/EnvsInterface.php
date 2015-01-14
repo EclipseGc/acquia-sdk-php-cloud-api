@@ -74,4 +74,33 @@ interface EnvsInterface extends DataInterface {
    */
   public function getServer($name);
 
+  /**
+   * @return array
+   */
+  public function getDomains();
+
+  /**
+   * @param $domain
+   * @return \Acquia\Cloud\Api\SDK\Domain\DomainInterface
+   */
+  public function getDomain($domain);
+
+  /**
+   * @param $domain
+   * @return \Acquia\Cloud\Api\SDK\Task\TaskInterface
+   */
+  public function createDomain($domain);
+
+  /**
+   * @param $source
+   * @return \Acquia\Cloud\Api\SDK\Task\TaskInterface
+   */
+  public function installFromSource($source);
+
+  /**
+   * @param $make_file
+   * @return \Acquia\Cloud\Api\SDK\Task\TaskInterface
+   */
+  public function installFromManifest($make_file);
+
 }

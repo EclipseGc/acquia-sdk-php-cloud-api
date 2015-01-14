@@ -20,6 +20,7 @@ class ObjectFactory implements ObjectFactoryInterface {
     'task' => '\Acquia\Cloud\Api\SDK\Task\Task',
     'envs' => '\Acquia\Cloud\Api\SDK\Envs\Envs',
     'server' => '\Acquia\Cloud\Api\SDK\Server\Server',
+    'domain' => '\Acquia\Cloud\Api\SDK\Domain\Domain',
   );
 
   function __construct(GuzzleClient $client) {
@@ -39,6 +40,7 @@ class ObjectFactory implements ObjectFactoryInterface {
     if (!isset($data['factory'])) {
       $data['factory'] = $this;
     }
+    $data += array_fill_keys($objectClass::getKeys(), NULL);
     $arguments = [];
     foreach ($reflector->getMethod('__construct')->getParameters() as $param) {
       $param_name = $param->getName();
@@ -153,4 +155,74 @@ class ObjectFactory implements ObjectFactoryInterface {
     return $this->createObjectType('server', $data);
   }
 
+  /**
+   * {@inheritdoc}
+   */
+  public function getPhpProcs($site_id, $env, $server, array $options = []) {
+    $options = [
+      'query' => [
+        'memory_limits' => [
+          '32M',
+          '64M',
+          '128M',
+        ],
+        'apc_shm' => [
+          '64M',
+          '128M',
+          '256M'
+        ],
+      ],
+    ];
+    $data = $this->request(['sites/{site}/envs/{env}/servers/{server}/php-procs.json', ['site' => $site_id, 'env' => $env, 'server' => $server]], $options)->json();
+    return $data;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getDomains($site_id, $env) {
+    $data = $this->request(['sites/{site}/envs/{env}/domains.json', ['site' => $site_id, 'env' => $env]])->json();
+    return $data;
+  }
+
+  public function getDomain($site_id, $env, $domain) {
+    $data = $this->request(['sites/{site}/envs/{env}/domains/{domain}.json', ['site' => $site_id, 'env' => $env, 'domain' => $domain]])->json();
+    $data['site_id'] = $site_id;
+    $data['env'] = $env;
+    return $this->createObjectType('domain', $data);
+  }
+
+  public function createDomain($site_id, $env, $domain) {
+    $data = $this->client()->post(['sites/{site}/envs/{env}/domains/{domain}.json', ['site' => $site_id, 'env' => $env, 'domain' => $domain]])->json();
+    $data['site_id'] = $site_id;
+    return $this->createObjectType('task', $data);
+  }
+
+  public function deleteDomain($site_id, $env, $domain) {
+    $data = $this->client()->delete(['sites/{site}/envs/{env}/domains/{domain}.json', ['site' => $site_id, 'env' => $env, 'domain' => $domain]])->json();
+    $data['site_id'] = $site_id;
+    return $this->createObjectType('task', $data);
+  }
+
+  public function purgeDomainCache($site_id, $env, $domain) {
+    $data = $this->client()->delete(['sites/{site}/envs/{env}/domains/{domain}/cache.json', ['site' => $site_id, 'env' => $env, 'domain' => $domain]])->json();
+    $data['site_id'] = $site_id;
+    return $this->createObjectType('task', $data);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function install($site_id, $env, $type, $source) {
+    $options = [
+      'query' => [
+        'source' => $source,
+      ],
+    ];
+    $data = $this->client()->post(['sites/{site}/envs/{env}/install/{type}.json', ['site' => $site_id, 'env' => $env, 'type' => $type]], $options)->json();
+    $data['site_id'] = $site_id;
+    return $this->createObjectType('task', $data);
+  }
+
 }
+
