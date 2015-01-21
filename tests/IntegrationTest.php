@@ -8,22 +8,20 @@ namespace Acquia\Cloud\Api\Tests;
 
 
 use Acquia\Cloud\Api\Client;
-use Acquia\Cloud\Api\ObjectFactory;
+use Acquia\Cloud\Api\Factory;
 
 class IntegrationTest extends \PHPUnit_Framework_TestCase {
 
   public function testSites() {
     $guzzle = new GuzzleTestClient();
-    $factory = new ObjectFactory($guzzle);
-    $client = new Client($factory);
+    $client = new Client($guzzle, new Factory());
     $return = $guzzle->get('sites.json')->json();
     $this->assertEquals($return, $client->getSites()->getData());
   }
 
   public function testSite() {
     $guzzle = new GuzzleTestClient();
-    $factory = new ObjectFactory($guzzle);
-    $client = new Client($factory);
+    $client = new Client($guzzle, new Factory());
     $return = $guzzle->get('sites/{site}.json')->json();
     $site = $client->getSites()[0];
     $this->assertEquals($return, $site->getData());
@@ -37,8 +35,7 @@ class IntegrationTest extends \PHPUnit_Framework_TestCase {
 
   public function testTasks() {
     $guzzle = new GuzzleTestClient();
-    $factory = new ObjectFactory($guzzle);
-    $client = new Client($factory);
+    $client = new Client($guzzle, new Factory());
     $return = $guzzle->get('sites/{site}/tasks.json')->json();
     $tasks = $client->getSites()[0]->getTasks();
     $tasks_data = [];
@@ -50,8 +47,7 @@ class IntegrationTest extends \PHPUnit_Framework_TestCase {
 
   public function testTask() {
     $guzzle = new GuzzleTestClient();
-    $factory = new ObjectFactory($guzzle);
-    $client = new Client($factory);
+    $client = new Client($guzzle, new Factory());
     $return = $guzzle->get('sites/{site}/tasks/{task}.json')->json();
     $task = $client->getSites()[0]->getTask(1);
     $this->assertEquals($return, $task->getData());
@@ -69,8 +65,7 @@ class IntegrationTest extends \PHPUnit_Framework_TestCase {
 
   public function testEnvs() {
     $guzzle = new GuzzleTestClient();
-    $factory = new ObjectFactory($guzzle);
-    $client = new Client($factory);
+    $client = new Client($guzzle, new Factory());
     $return = $guzzle->get('sites/{site}/envs.json')->json();
     $envs = $client->getSites()[0]->getEnvs();
     $envs_data = [];
@@ -82,8 +77,7 @@ class IntegrationTest extends \PHPUnit_Framework_TestCase {
 
   public function testEnv() {
     $guzzle = new GuzzleTestClient();
-    $factory = new ObjectFactory($guzzle);
-    $client = new Client($factory);
+    $client = new Client($guzzle, new Factory());
     $return = $guzzle->get('sites/{site}/envs/{env}.json')->json();
     $env = $client->getSites()[0]->getEnv('test');
     $this->assertEquals($return, $env->getData());

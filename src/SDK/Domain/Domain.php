@@ -7,14 +7,14 @@
 namespace Acquia\Cloud\Api\SDK\Domain;
 
 
-use Acquia\Cloud\Api\ObjectFactoryInterface;
+use Acquia\Cloud\Api\ClientInterface;
 
 class Domain implements DomainInterface {
 
   /**
-   * @var \Acquia\Cloud\Api\ObjectFactoryInterface
+   * @var \Acquia\Cloud\Api\ClientInterface
    */
-  protected $factory;
+  protected $client;
 
   /**
    * @var string
@@ -31,8 +31,8 @@ class Domain implements DomainInterface {
    */
   protected $name;
 
-  public function __construct(ObjectFactoryInterface $factory, $site_id, $env, $name) {
-    $this->factory = $factory;
+  public function __construct(ClientInterface $client, $site_id, $env, $name) {
+    $this->client = $client;
     $this->siteId = $site_id;
     $this->env = $env;
     $this->name = $name;
@@ -51,11 +51,11 @@ class Domain implements DomainInterface {
   }
 
   public function delete() {
-    return $this->factory->deleteDomain($this->getSiteId(), $this->getEnv(), $this->getName());
+    return $this->client->deleteDomain($this->getSiteId(), $this->getEnv(), $this->getName());
   }
 
   public function purgeCache() {
-    return $this->factory->purgeDomainCache($this->getSiteId(), $this->getEnv(), $this->getName());
+    return $this->client->purgeDomainCache($this->getSiteId(), $this->getEnv(), $this->getName());
   }
 
   public function getData() {

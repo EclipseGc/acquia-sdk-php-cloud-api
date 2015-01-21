@@ -7,7 +7,7 @@
 namespace Acquia\Cloud\Api\SDK;
 
 use Acquia\Cloud\Api\DataInterface;
-use Acquia\Cloud\Api\ObjectFactoryInterface;
+use Acquia\Cloud\Api\ClientInterface;
 
 class Sites implements \ArrayAccess, DataInterface {
 
@@ -19,16 +19,16 @@ class Sites implements \ArrayAccess, DataInterface {
   protected $sites;
 
   /**
-   * @var \Acquia\Cloud\Api\ObjectFactoryInterface
+   * @var \Acquia\Cloud\Api\ClientInterface
    */
-  protected $factory;
+  protected $client;
 
   /**
-   * @param \Acquia\Cloud\Api\ObjectFactoryInterface $factory
+   * @param \Acquia\Cloud\Api\ClientInterface $client
    * @param array $sites
    */
-  public function __construct(ObjectFactoryInterface $factory, array $sites) {
-    $this->factory = $factory;
+  public function __construct(ClientInterface $client, array $sites) {
+    $this->client = $client;
     $this->sites = $sites;
   }
 
@@ -48,7 +48,7 @@ class Sites implements \ArrayAccess, DataInterface {
   public function offsetGet($offset) {
     if (isset($this->sites[$offset])) {
       if (!is_object($this->sites[$offset])) {
-        $this->sites[$offset] = $this->factory->getSite($this->sites[$offset]);
+        $this->sites[$offset] = $this->client->getSite($this->sites[$offset]);
       }
       return $this->sites[$offset];
     }

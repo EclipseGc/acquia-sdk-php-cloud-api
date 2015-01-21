@@ -6,14 +6,14 @@
 
 namespace Acquia\Cloud\Api\SDK;
 
-use Acquia\Cloud\Api\ObjectFactoryInterface;
+use Acquia\Cloud\Api\ClientInterface;
 
 class Site implements SiteInterface {
 
   /**
-   * @var \Acquia\Cloud\Api\ObjectFactoryInterface
+   * @var \Acquia\Cloud\Api\ClientInterface
    */
-  protected $factory;
+  protected $client;
 
   /**
    * @var string
@@ -45,8 +45,8 @@ class Site implements SiteInterface {
    */
   protected $vcsUrl;
 
-  function __construct(ObjectFactoryInterface $factory, $title, $name, $production_mode, $unix_username, $vcs_type, $vcs_url) {
-    $this->factory = $factory;
+  function __construct(ClientInterface $client, $title, $name, $production_mode, $unix_username, $vcs_type, $vcs_url) {
+    $this->client = $client;
     $this->title = $title;
     $this->name = $name;
     $this->productionMode = $production_mode;
@@ -101,19 +101,19 @@ class Site implements SiteInterface {
    * {@inheritdoc}
    */
   public function getTasks() {
-    return $this->factory->getTasks($this->getName());
+    return $this->client->getTasks($this->getName());
   }
 
   public function getTask($id) {
-    return $this->factory->getTask($this->getName(), $id);
+    return $this->client->getTask($this->getName(), $id);
   }
 
   public function getEnvs() {
-    return $this->factory->getEnvs($this->getName());
+    return $this->client->getEnvs($this->getName());
   }
 
   public function getEnv($env) {
-    return $this->factory->getEnv($this->getName(), $env);
+    return $this->client->getEnv($this->getName(), $env);
   }
 
   /**

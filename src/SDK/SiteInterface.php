@@ -61,7 +61,7 @@ interface SiteInterface extends DataInterface {
   /**
    * Get all available environments for this site.
    *
-   * @return \Acquia\Cloud\Api\SDK\Envs\EnvsInterface[]
+   * @return \Acquia\Cloud\Api\SDK\Environment\EnvironmentInterface[]
    */
   public function getEnvs();
 
@@ -71,7 +71,7 @@ interface SiteInterface extends DataInterface {
    * @param string $name
    *   The name of the environment you wish to load.
    *
-   * @return \Acquia\Cloud\Api\SDK\Envs\EnvsInterface
+   * @return \Acquia\Cloud\Api\SDK\Environment\EnvironmentInterface
    */
   public function getEnv($name);
 

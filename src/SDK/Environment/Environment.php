@@ -1,22 +1,19 @@
 <?php
 /**
  * @file
- * Contains Envs.php.
+ * Contains Environment.php.
  */
 
-namespace Acquia\Cloud\Api\SDK\Envs;
+namespace Acquia\Cloud\Api\SDK\Environment;
 
+use Acquia\Cloud\Api\ClientInterface;
 
-use Acquia\Cloud\Api\ObjectFactoryInterface;
-use Acquia\Cloud\Api\SDK\Server\Server;
-use Acquia\Cloud\Api\SDK\Task\Task;
-
-class Envs implements EnvsInterface {
+class Environment implements EnvironmentInterface {
 
   /**
-   * @var \Acquia\Cloud\Api\ObjectFactoryInterface
+   * @var \Acquia\Cloud\Api\ClientInterface
    */
-  protected $factory;
+  protected $client;
 
   /**
    * The site identifier.
@@ -67,8 +64,8 @@ class Envs implements EnvsInterface {
    */
   protected $livedev;
 
-  public function __construct(ObjectFactoryInterface $factory, $site_id, $name, $vcs_path, $ssh_host, $db_clusters, $default_domain, $livedev) {
-    $this->factory = $factory;
+  public function __construct(ClientInterface $client, $site_id, $name, $vcs_path, $ssh_host, $db_clusters, $default_domain, $livedev) {
+    $this->client = $client;
     $this->siteId = $site_id;
     $this->name = $name;
     $this->vcsPath = $vcs_path;
@@ -128,43 +125,43 @@ class Envs implements EnvsInterface {
   }
 
   public function getLogStream() {
-    return $this->factory->getLogStream($this->getSiteId(), $this->getName());
+    return $this->client->getLogStream($this->getSiteId(), $this->getName());
   }
 
   public function enableLiveDev() {
-    return $this->factory->enableLiveDev($this->getSiteId(), $this->getName());
+    return $this->client->enableLiveDev($this->getSiteId(), $this->getName());
   }
 
   public function disableLiveDev() {
-    return $this->factory->disableLiveDev($this->getSiteId(), $this->getName());
+    return $this->client->disableLiveDev($this->getSiteId(), $this->getName());
   }
 
   public function getServers() {
-    return $this->factory->getServers($this->getSiteId(), $this->getName());
+    return $this->client->getServers($this->getSiteId(), $this->getName());
   }
 
   public function getServer($name) {
-    return $this->factory->getServer($this->getSiteId(), $this->getName(), $name);
+    return $this->client->getServer($this->getSiteId(), $this->getName(), $name);
   }
 
   public function getDomains() {
-    return $this->factory->getDomains($this->getSiteId(), $this->getName());
+    return $this->client->getDomains($this->getSiteId(), $this->getName());
   }
 
   public function getDomain($domain) {
-    return $this->factory->getDomain($this->getSiteId(), $this->getName(), $domain);
+    return $this->client->getDomain($this->getSiteId(), $this->getName(), $domain);
   }
 
   public function createDomain($domain) {
-    return $this->factory->createDomain($this->getSiteId(), $this->getName(), $domain);
+    return $this->client->createDomain($this->getSiteId(), $this->getName(), $domain);
   }
 
   public function installFromSource($source_file) {
-    return $this->factory->install($this->getSiteId(), $this->getName(), 'distro_url', $source_file);
+    return $this->client->install($this->getSiteId(), $this->getName(), 'distro_url', $source_file);
   }
 
   public function installFromManifest($make_file) {
-    return $this->factory->install($this->getSiteId(), $this->getName(), 'make_url', $make_file);
+    return $this->client->install($this->getSiteId(), $this->getName(), 'make_url', $make_file);
   }
 
   public function getData() {

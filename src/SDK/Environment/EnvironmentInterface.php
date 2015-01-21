@@ -1,15 +1,14 @@
 <?php
 /**
  * @file
- * Contains EnvsInterface.php.
+ * Contains EnvironmentInterface.php.
  */
 
-namespace Acquia\Cloud\Api\SDK\Envs;
-
+namespace Acquia\Cloud\Api\SDK\Environment;
 
 use Acquia\Cloud\Api\DataInterface;
 
-interface EnvsInterface extends DataInterface {
+interface EnvironmentInterface extends DataInterface {
 
   /**
    * @return array
