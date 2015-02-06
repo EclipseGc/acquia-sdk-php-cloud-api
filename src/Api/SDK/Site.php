@@ -4,14 +4,14 @@
  * Contains Site.php.
  */
 
-namespace Acquia\Cloud\Api\SDK;
+namespace Acquia\Platform\Cloud\Api\SDK;
 
-use Acquia\Cloud\Api\ClientInterface;
+use Acquia\Platform\Cloud\Api\ClientInterface;
 
 class Site implements SiteInterface {
 
   /**
-   * @var \Acquia\Cloud\Api\ClientInterface
+   * @var \Acquia\Platform\Cloud\Api\ClientInterface
    */
   protected $client;
 

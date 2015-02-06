@@ -1,10 +1,10 @@
 <?php
 /**
  * @file
- * Contains \Acquia\Cloud\API\Client.
+ * Contains \Acquia\Platform\Cloud\API\Client.
  */
 
-namespace Acquia\Cloud\Api;
+namespace Acquia\Platform\Cloud\Api;
 
 use GuzzleHttp\Client as GuzzleClient;
 
@@ -16,7 +16,7 @@ class Wrapper {
   /**
    * @param $user
    * @param $pass
-   * @return \Acquia\Cloud\Api\ClientInterface
+   * @return \Acquia\Platform\Cloud\Api\ClientInterface
    */
   public static function create($user, $pass) {
     $config = [

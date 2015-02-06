@@ -4,15 +4,15 @@
  * Contains Server.php.
  */
 
-namespace Acquia\Cloud\Api\SDK\Server;
+namespace Acquia\Platform\Cloud\Api\SDK\Server;
 
 
-use Acquia\Cloud\Api\ClientInterface;
+use Acquia\Platform\Cloud\Api\ClientInterface;
 
 class Server implements ServerInterface {
 
   /**
-   * @var \Acquia\Cloud\Api\ClientInterface
+   * @var \Acquia\Platform\Cloud\Api\ClientInterface
    */
   protected $client;
 

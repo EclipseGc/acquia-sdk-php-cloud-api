@@ -3,9 +3,9 @@
  * @file
  * Contains ServerInterface.php.
  */
-namespace Acquia\Cloud\Api\SDK\Server;
+namespace Acquia\Platform\Cloud\Api\SDK\Server;
 
-use Acquia\Cloud\Api\DataInterface;
+use Acquia\Platform\Cloud\Api\DataInterface;
 
 interface ServerInterface extends DataInterface {
   /**

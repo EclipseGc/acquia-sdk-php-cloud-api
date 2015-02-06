@@ -4,15 +4,15 @@
  * Contains Domain.php.
  */
 
-namespace Acquia\Cloud\Api\SDK\Domain;
+namespace Acquia\Platform\Cloud\Api\SDK\Domain;
 
 
-use Acquia\Cloud\Api\ClientInterface;
+use Acquia\Platform\Cloud\Api\ClientInterface;
 
 class Domain implements DomainInterface {
 
   /**
-   * @var \Acquia\Cloud\Api\ClientInterface
+   * @var \Acquia\Platform\Cloud\Api\ClientInterface
    */
   protected $client;
 

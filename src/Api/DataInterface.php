@@ -4,7 +4,7 @@
  * Contains DataInterface.php.
  */
 
-namespace Acquia\Cloud\Api;
+namespace Acquia\Platform\Cloud\Api;
 
 
 interface DataInterface {

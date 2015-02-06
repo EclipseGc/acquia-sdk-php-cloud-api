@@ -3,9 +3,9 @@
  * @file
  * Contains DomainInterface.php.
  */
-namespace Acquia\Cloud\Api\SDK\Domain;
+namespace Acquia\Platform\Cloud\Api\SDK\Domain;
 
-use Acquia\Cloud\Api\DataInterface;
+use Acquia\Platform\Cloud\Api\DataInterface;
 
 interface DomainInterface extends DataInterface {
   public function getName();

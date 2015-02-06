@@ -4,10 +4,10 @@
  * Contains Sites.php.
  */
 
-namespace Acquia\Cloud\Api\SDK;
+namespace Acquia\Platform\Cloud\Api\SDK;
 
-use Acquia\Cloud\Api\DataInterface;
-use Acquia\Cloud\Api\ClientInterface;
+use Acquia\Platform\Cloud\Api\DataInterface;
+use Acquia\Platform\Cloud\Api\ClientInterface;
 
 class Sites implements \ArrayAccess, DataInterface {
 
@@ -19,12 +19,12 @@ class Sites implements \ArrayAccess, DataInterface {
   protected $sites;
 
   /**
-   * @var \Acquia\Cloud\Api\ClientInterface
+   * @var \Acquia\Platform\Cloud\Api\ClientInterface
    */
   protected $client;
 
   /**
-   * @param \Acquia\Cloud\Api\ClientInterface $client
+   * @param \Acquia\Platform\Cloud\Api\ClientInterface $client
    * @param array $sites
    */
   public function __construct(ClientInterface $client, array $sites) {
@@ -43,7 +43,7 @@ class Sites implements \ArrayAccess, DataInterface {
    * Implements \ArrayAccess::offsetGet().
    *
    * @param mixed $offset
-   * @return NULL|\Acquia\Cloud\Api\SDK\SiteInterface
+   * @return NULL|\Acquia\Platform\Cloud\Api\SDK\SiteInterface
    */
   public function offsetGet($offset) {
     if (isset($this->sites[$offset])) {
@@ -60,10 +60,10 @@ class Sites implements \ArrayAccess, DataInterface {
    */
   public function offsetSet($offset, $value) {
     if (isset($this->sites[$offset])) {
-      if ($value instanceof \Acquia\Cloud\Api\SDK\SiteInterface) {
+      if ($value instanceof \Acquia\Platform\Cloud\Api\SDK\SiteInterface) {
         $this->sites[$offset] = $value;
       }
-      throw new \Exception('Setting site values is only allowed using a instance of a \Acquia\Cloud\Api\SDK\SiteInterface object.');
+      throw new \Exception('Setting site values is only allowed using a instance of a \Acquia\Platform\Cloud\Api\SDK\SiteInterface object.');
     }
     // @todo throw a custom exception
     throw new \Exception('You cannot manually add or change sites.');

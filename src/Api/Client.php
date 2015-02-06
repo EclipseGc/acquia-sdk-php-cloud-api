@@ -1,10 +1,10 @@
 <?php
 /**
  * @file
- * Contains \Acquia\Cloud\Api\Client.
+ * Contains \Acquia\Platform\Cloud\Api\Client.
  */
 
-namespace Acquia\Cloud\Api;
+namespace Acquia\Platform\Cloud\Api;
 
 use GuzzleHttp\Client as GuzzleClient;
 

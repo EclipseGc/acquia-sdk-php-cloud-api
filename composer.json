@@ -19,12 +19,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Acquia\\Cloud\\": "src/"
+            "Acquia\\Platform\\Cloud\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Acquia\\Cloud\\Tests\\": "tests/"
+            "Acquia\\Platform\\Cloud\\Tests\\": "tests/"
         }
     }
 }

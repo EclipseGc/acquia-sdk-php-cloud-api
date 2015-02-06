@@ -4,14 +4,14 @@
  * Contains Environment.php.
  */
 
-namespace Acquia\Cloud\Api\SDK\Environment;
+namespace Acquia\Platform\Cloud\Api\SDK\Environment;
 
-use Acquia\Cloud\Api\ClientInterface;
+use Acquia\Platform\Cloud\Api\ClientInterface;
 
 class Environment implements EnvironmentInterface {
 
   /**
-   * @var \Acquia\Cloud\Api\ClientInterface
+   * @var \Acquia\Platform\Cloud\Api\ClientInterface
    */
   protected $client;
 
