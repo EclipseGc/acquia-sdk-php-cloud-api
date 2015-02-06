@@ -1,13 +1,13 @@
 <?php
 /**
  * @file
- * Contains DataInterface.php.
+ * Contains ObjectInterface.php.
  */
 
-namespace Acquia\Cloud\Api;
+namespace Acquia\Platform\Cloud\Common;
 
 
-interface DataInterface {
+interface ObjectInterface {
 
   /**
    * @return array

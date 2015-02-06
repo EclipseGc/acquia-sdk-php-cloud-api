@@ -3,11 +3,11 @@
  * @file
  * Contains DomainInterface.php.
  */
-namespace Acquia\Cloud\Api\SDK\Domain;
+namespace Acquia\Platform\Cloud\Hosting\Domain;
 
-use Acquia\Cloud\Api\DataInterface;
+use Acquia\Platform\Cloud\Common\ObjectInterface;
 
-interface DomainInterface extends DataInterface {
+interface DomainInterface extends ObjectInterface {
   public function getName();
 
   public function delete();

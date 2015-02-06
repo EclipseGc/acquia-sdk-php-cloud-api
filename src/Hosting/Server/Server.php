@@ -4,17 +4,17 @@
  * Contains Server.php.
  */
 
-namespace Acquia\Cloud\Api\SDK\Server;
+namespace Acquia\Platform\Cloud\Hosting\Server;
 
 
-use Acquia\Cloud\Api\ClientInterface;
+use Acquia\Platform\Cloud\Hosting\DataSourceInterface;
 
 class Server implements ServerInterface {
 
   /**
-   * @var \Acquia\Cloud\Api\ClientInterface
+   * @var \Acquia\Platform\Cloud\Hosting\DataSourceInterface
    */
-  protected $client;
+  protected $dataSource;
 
   /**
    * The server name.
@@ -89,8 +89,8 @@ class Server implements ServerInterface {
     'ec2_availability_zone',
   );
 
-  function __construct(ClientInterface $client, $site_id, $env, $name, $fqdn, $services, $ami_type, $ec2_region, $ec2_availability_zone) {
-    $this->client = $client;
+  function __construct(DataSourceInterface $dataSource, $site_id, $env, $name, $fqdn, $services, $ami_type, $ec2_region, $ec2_availability_zone) {
+    $this->dataSource = $dataSource;
     $this->siteId = $site_id;
     $this->env = $env;
     $this->name = $name;
@@ -167,7 +167,7 @@ class Server implements ServerInterface {
   }
 
   public function getPhpProcs() {
-    return $this->client->getPhpProcs($this->getSiteId(), $this->getEnv(), $this->getName());
+    return $this->dataSource->getPhpProcs($this->getSiteId(), $this->getEnv(), $this->getName());
   }
 
   public function getData() {

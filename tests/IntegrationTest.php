@@ -4,11 +4,11 @@
  * Contains SitesTest.php.
  */
 
-namespace Acquia\Cloud\Api\Tests;
+namespace Acquia\Platform\Cloud\Tests;
 
 
-use Acquia\Cloud\Api\Client;
-use Acquia\Cloud\Api\Factory;
+use Acquia\Platform\Cloud\Hosting\Api\Client;
+use Acquia\Platform\Cloud\Hosting\Factory;
 
 class IntegrationTest extends \PHPUnit_Framework_TestCase {
 

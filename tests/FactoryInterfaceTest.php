@@ -4,52 +4,52 @@
  * Contains FactoryInterfaceTest.php.
  */
 
-namespace Acquia\Cloud\Api\Tests;
+namespace Acquia\Platform\Cloud\Tests;
 
-use Acquia\Cloud\Api\SDK\Environment\Environment;
-use Acquia\Cloud\Api\SDK\Site;
-use Acquia\Cloud\Api\SDK\Sites;
+use Acquia\Platform\Cloud\Hosting\Environment\Environment;
+use Acquia\Platform\Cloud\Hosting\Site\Site;
+use Acquia\Platform\Cloud\Hosting\Site\Sites;
 
 class FactoryInterfaceTest extends \PHPUnit_Framework_TestCase {
 
   /**
-   * @covers \Acquia\Cloud\Api\Client::getSites
-   * @covers \Acquia\Cloud\Api\Client::getAliases
+   * @covers \Acquia\Platform\Cloud\Hosting\Api\Client::getSites
+   * @covers \Acquia\Platform\Cloud\Hosting\Api\Client::getAliases
    */
   public function testClient() {
-    /** @var $client \Acquia\Cloud\Api\ClientInterface */
-    $client = $this->getMockBuilder('\Acquia\Cloud\Api\ClientInterface')
+    /** @var $dataSource \Acquia\Platform\Cloud\Hosting\DataSourceInterface */
+    $dataSource = $this->getMockBuilder('\Acquia\Platform\Cloud\Hosting\DataSourceInterface')
       ->getMock();
-    $client->expects($this->once())
+    $dataSource->expects($this->once())
       ->method('getSites');
-    $client->expects($this->once())
+    $dataSource->expects($this->once())
       ->method('getAliases');
-    $client->getSites();
-    $client->getAliases();
+    $dataSource->getSites();
+    $dataSource->getAliases();
   }
 
   /**
-   * @covers \Acquia\Cloud\Api\SDK\Sites::offsetGet
+   * @covers \Acquia\Platform\Cloud\Hosting\Sites\Sites::offsetGet
    */
   public function testSites() {
-    $client = $this->getMockBuilder('\Acquia\Cloud\Api\ClientInterface')
+    $dataSource = $this->getMockBuilder('\Acquia\Platform\Cloud\Hosting\DataSourceInterface')
       ->getMock();
-    $client->expects($this->exactly(2))
+    $dataSource->expects($this->exactly(2))
       ->method('getSite')
       ->withConsecutive(
         $this->equalTo('dev:test1'),
         $this->equalTo('dev:test2')
       );
-    $sites = new Sites($client, ['dev:test1', 'dev:test2']);
+    $sites = new Sites($dataSource, ['dev:test1', 'dev:test2']);
     $sites[0];
     $sites[1];
   }
 
   /**
-   * @covers \Acquia\Cloud\Api\SDK\Site::getEnvs
-   * @covers \Acquia\Cloud\Api\SDK\Site::getEnv
-   * @covers \Acquia\Cloud\Api\SDK\Site::getTasks
-   * @covers \Acquia\Cloud\Api\SDK\Site::getTask
+   * @covers \Acquia\Platform\Cloud\Hosting\Site\Site::getEnvs
+   * @covers \Acquia\Platform\Cloud\Hosting\Site\Site::getEnv
+   * @covers \Acquia\Platform\Cloud\Hosting\Site\Site::getTasks
+   * @covers \Acquia\Platform\Cloud\Hosting\Site\Site::getTask
    */
   public function testSite() {
     // Setup Site value object requirements.
@@ -60,22 +60,22 @@ class FactoryInterfaceTest extends \PHPUnit_Framework_TestCase {
     $vcs_type = 'git';
     $vcs_url = 'test0@svn-test.devcloud.hosting.acquia.com:test0.git';
     // Mock factory for Site object.
-    $client = $this->getMockBuilder('\Acquia\Cloud\Api\ClientInterface')
+    $dataSource = $this->getMockBuilder('\Acquia\Platform\Cloud\Hosting\DataSourceInterface')
       ->getMock();
-    $client->expects($this->once())
+    $dataSource->expects($this->once())
       ->method('getEnvs')
       ->with($name);
-    $client->expects($this->once())
+    $dataSource->expects($this->once())
       ->method('getEnv')
       ->with($name, 'dev');
-    $client->expects($this->once())
+    $dataSource->expects($this->once())
       ->method('getTasks')
       ->with($name);
-    $client->expects($this->once())
+    $dataSource->expects($this->once())
       ->method('getTask')
       ->with($name, 11201);
     // Invoke methods for expectations.
-    $site = new Site($client, $title, $name, $production_mode, $unix_username, $vcs_type, $vcs_url);
+    $site = new Site($dataSource, $title, $name, $production_mode, $unix_username, $vcs_type, $vcs_url);
     $site->getEnvs();
     $site->getEnv('dev');
     $site->getTasks();
@@ -83,9 +83,9 @@ class FactoryInterfaceTest extends \PHPUnit_Framework_TestCase {
   }
 
   /**
-   * @covers \Acquia\Cloud\Api\SDK\Envs\Envs::getServers
-   * @covers \Acquia\Cloud\Api\SDK\Envs\Envs::getServer
-   * @covers \Acquia\Cloud\Api\SDK\Envs\Envs::getLogStream
+   * @covers \Acquia\Platform\Cloud\Hosting\Environment\Environment::getServers
+   * @covers \Acquia\Platform\Cloud\Hosting\Environment\Environment::getServer
+   * @covers \Acquia\Platform\Cloud\Hosting\Environment\Environment::getLogStream
    */
   public function testEnv() {
     // Setup Environment value object requirements.
@@ -96,18 +96,18 @@ class FactoryInterfaceTest extends \PHPUnit_Framework_TestCase {
     $db_clusters = [1111];
     $default_domain = 'myfakeunittestsite.devcloud.hosting.acquia.com';
     $livedev = 'disabled';
-    $client = $this->getMockBuilder('\Acquia\Cloud\Api\ClientInterface')
+    $dataSource = $this->getMockBuilder('\Acquia\Platform\Cloud\Hosting\DataSourceInterface')
       ->getMock();
-    $client->expects($this->once())
+    $dataSource->expects($this->once())
       ->method('getServers')
       ->with($site_id, $name);
-    $client->expects($this->once())
+    $dataSource->expects($this->once())
       ->method('getServer')
       ->with($site_id, $name, 'myfakeunittestserver');
-    $client->expects($this->once())
+    $dataSource->expects($this->once())
       ->method('getLogStream')
       ->with($site_id, $name);
-    $env = new Environment($client, $site_id, $name, $vcs_path, $ssh_host, $db_clusters, $default_domain, $livedev);
+    $env = new Environment($dataSource, $site_id, $name, $vcs_path, $ssh_host, $db_clusters, $default_domain, $livedev);
     $env->getServers();
     $env->getServer('myfakeunittestserver');
     $env->getLogStream();

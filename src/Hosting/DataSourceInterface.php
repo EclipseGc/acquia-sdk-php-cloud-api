@@ -1,11 +1,11 @@
 <?php
 /**
  * @file
- * Contains ClienttInterface.php.
+ * Contains DataSourceInterface.php.
  */
-namespace Acquia\Cloud\Api;
+namespace Acquia\Platform\Cloud\Hosting;
 
-interface ClientInterface {
+interface DataSourceInterface {
   /**
    * @return array
    */
@@ -15,12 +15,12 @@ interface ClientInterface {
    * @param $site_id
    * @param $env
    * @param $domain
-   * @return \Acquia\Cloud\Api\SDK\Task\TaskInterface
+   * @return \Acquia\Platform\Cloud\Hosting\Task\TaskInterface
    */
   public function createDomain($site_id, $env, $domain);
 
   /**
-   * @return \Acquia\Cloud\Api\SDK\Sites|\Acquia\Cloud\Api\SDK\SiteInterface[]
+   * @return \Acquia\Platform\Cloud\Hosting\Site\Sites|\Acquia\Platform\Cloud\Hosting\Site\SiteInterface[]
    */
   public function getSites();
 
@@ -28,7 +28,7 @@ interface ClientInterface {
    * @param $site_id
    * @param $env
    * @param $domain
-   * @return \Acquia\Cloud\Api\SDK\Task\TaskInterface
+   * @return \Acquia\Platform\Cloud\Hosting\Task\TaskInterface
    */
   public function deleteDomain($site_id, $env, $domain);
 
@@ -42,7 +42,7 @@ interface ClientInterface {
   /**
    * @param $site_id
    * @param $name
-   * @return \Acquia\Cloud\Api\SDK\Task\TaskInterface
+   * @return \Acquia\Platform\Cloud\Hosting\Task\TaskInterface
    */
   public function disableLiveDev($site_id, $name);
 
@@ -60,7 +60,7 @@ interface ClientInterface {
 
   /**
    * @param $site_id
-   * @return \Acquia\Cloud\Api\SDK\Task\TaskInterface[]
+   * @return \Acquia\Platform\Cloud\Hosting\Task\TaskInterface[]
    */
   public function getTasks($site_id);
 
@@ -68,14 +68,14 @@ interface ClientInterface {
    * @param $site_id
    * @param $env
    * @param $domain
-   * @return \Acquia\Cloud\Api\SDK\Task\TaskInterface
+   * @return \Acquia\Platform\Cloud\Hosting\Task\TaskInterface
    */
   public function purgeDomainCache($site_id, $env, $domain);
 
   /**
    * @param $site_id
    * @param $task_id
-   * @return \Acquia\Cloud\Api\SDK\Task\TaskInterface
+   * @return \Acquia\Platform\Cloud\Hosting\Task\TaskInterface
    */
   public function getTask($site_id, $task_id);
 
@@ -83,14 +83,14 @@ interface ClientInterface {
    * @param $site_id
    * @param $env
    * @param $domain
-   * @return \Acquia\Cloud\Api\SDK\Domain\DomainInterface
+   * @return \Acquia\Platform\Cloud\Hosting\Domain\DomainInterface
    */
   public function getDomain($site_id, $env, $domain);
 
   /**
    * @param $site_id
    * @param $env
-   * @return \Acquia\Cloud\Api\SDK\Server\ServerInterface[]
+   * @return \Acquia\Platform\Cloud\Hosting\Server\ServerInterface[]
    */
   public function getServers($site_id, $env);
 
@@ -104,7 +104,7 @@ interface ClientInterface {
   /**
    * @param $site_id
    * @param $name
-   * @return \Acquia\Cloud\Api\SDK\Task\TaskInterface
+   * @return \Acquia\Platform\Cloud\Hosting\Task\TaskInterface
    */
   public function enableLiveDev($site_id, $name);
 
@@ -112,26 +112,26 @@ interface ClientInterface {
    * @param $site_id
    * @param $env
    * @param $server
-   * @return \Acquia\Cloud\Api\SDK\Server\ServerInterface
+   * @return \Acquia\Platform\Cloud\Hosting\Server\ServerInterface
    */
   public function getServer($site_id, $env, $server);
 
   /**
    * @param $site_id
-   * @return \Acquia\Cloud\Api\SDK\SiteInterface
+   * @return \Acquia\Platform\Cloud\Hosting\Site\SiteInterface
    */
   public function getSite($site_id);
 
   /**
    * @param $site_id
-   * @return \Acquia\Cloud\Api\SDK\Environment\EnvironmentInterface[]
+   * @return \Acquia\Platform\Cloud\Hosting\Environment\EnvironmentInterface[]
    */
   public function getEnvs($site_id);
 
   /**
    * @param $site_id
    * @param $name
-   * @return \Acquia\Cloud\Api\SDK\Environment\EnvironmentInterface
+   * @return \Acquia\Platform\Cloud\Hosting\Environment\EnvironmentInterface
    */
   public function getEnv($site_id, $name);
 
@@ -140,7 +140,7 @@ interface ClientInterface {
    * @param string $env
    * @param string $type
    * @param string $source
-   * @return \Acquia\Cloud\Api\SDK\Task\TaskInterface
+   * @return \Acquia\Platform\Cloud\Hosting\Task\TaskInterface
    */
   public function install($site_id, $env, $type, $source);
 }

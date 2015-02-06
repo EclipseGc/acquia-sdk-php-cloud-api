@@ -1,15 +1,15 @@
 <?php
 /**
  * @file
- * Contains \Acquia\Cloud\Api\SDK\Task\TaskInterface.
+ * Contains \Acquia\Platform\Cloud\Hosting\Task\TaskInterface.
  */
 
-namespace Acquia\Cloud\Api\SDK\Task;
+namespace Acquia\Platform\Cloud\Hosting\Task;
 
 
-use Acquia\Cloud\Api\DataInterface;
+use Acquia\Platform\Cloud\Common\ObjectInterface;
 
-interface TaskInterface extends DataInterface {
+interface TaskInterface extends ObjectInterface {
 
   /**
    * @return int
