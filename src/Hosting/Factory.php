@@ -4,7 +4,9 @@
  * Contains Factory.php.
  */
 
-namespace Acquia\Platform\Cloud\Api;
+namespace Acquia\Platform\Cloud\Hosting;
+
+use Acquia\Platform\Cloud\Common\FactoryInterface;
 
 class Factory implements FactoryInterface {
 

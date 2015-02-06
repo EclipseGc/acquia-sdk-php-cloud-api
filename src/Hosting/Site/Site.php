@@ -6,14 +6,14 @@
 
 namespace Acquia\Platform\Cloud\Hosting\Site;
 
-use Acquia\Platform\Cloud\Api\ClientInterface;
+use Acquia\Platform\Cloud\Hosting\DataInterface;
 
 class Site implements SiteInterface {
 
   /**
-   * @var \Acquia\Platform\Cloud\Api\ClientInterface
+   * @var \Acquia\Platform\Cloud\Hosting\DataInterface
    */
-  protected $client;
+  protected $dataSource;
 
   /**
    * @var string
@@ -45,8 +45,8 @@ class Site implements SiteInterface {
    */
   protected $vcsUrl;
 
-  function __construct(ClientInterface $client, $title, $name, $production_mode, $unix_username, $vcs_type, $vcs_url) {
-    $this->client = $client;
+  function __construct(DataInterface $dataSource, $title, $name, $production_mode, $unix_username, $vcs_type, $vcs_url) {
+    $this->dataSource = $dataSource;
     $this->title = $title;
     $this->name = $name;
     $this->productionMode = $production_mode;
@@ -101,19 +101,19 @@ class Site implements SiteInterface {
    * {@inheritdoc}
    */
   public function getTasks() {
-    return $this->client->getTasks($this->getName());
+    return $this->dataSource->getTasks($this->getName());
   }
 
   public function getTask($id) {
-    return $this->client->getTask($this->getName(), $id);
+    return $this->dataSource->getTask($this->getName(), $id);
   }
 
   public function getEnvs() {
-    return $this->client->getEnvs($this->getName());
+    return $this->dataSource->getEnvs($this->getName());
   }
 
   public function getEnv($env) {
-    return $this->client->getEnv($this->getName(), $env);
+    return $this->dataSource->getEnv($this->getName(), $env);
   }
 
   /**

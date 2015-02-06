@@ -7,9 +7,9 @@
 namespace Acquia\Platform\Cloud\Hosting\Site;
 
 
-use Acquia\Platform\Cloud\Api\DataInterface;
+use Acquia\Platform\Cloud\Common\ObjectInterface;
 
-interface SiteInterface extends DataInterface {
+interface SiteInterface extends ObjectInterface {
 
   /**
    * @return string

@@ -6,10 +6,10 @@
 
 namespace Acquia\Platform\Cloud\Hosting\Site;
 
-use Acquia\Platform\Cloud\Api\ClientInterface;
-use Acquia\Platform\Cloud\Api\DataInterface;
+use Acquia\Platform\Cloud\Common\ObjectInterface;
+use Acquia\Platform\Cloud\Hosting\DataInterface;
 
-class Sites implements \ArrayAccess, DataInterface {
+class Sites implements \ArrayAccess, ObjectInterface {
 
   /**
    * The array of sites for this subscription.
@@ -19,16 +19,16 @@ class Sites implements \ArrayAccess, DataInterface {
   protected $sites;
 
   /**
-   * @var \Acquia\Platform\Cloud\Api\ClientInterface
+   * @var \Acquia\Platform\Cloud\Hosting\DataInterface
    */
-  protected $client;
+  protected $dataSource;
 
   /**
-   * @param \Acquia\Platform\Cloud\Api\ClientInterface $client
+   * @param \Acquia\Platform\Cloud\Hosting\DataInterface $dataSource
    * @param array $sites
    */
-  public function __construct(ClientInterface $client, array $sites) {
-    $this->client = $client;
+  public function __construct(DataInterface $dataSource, array $sites) {
+    $this->dataSource = $dataSource;
     $this->sites = $sites;
   }
 
@@ -48,7 +48,7 @@ class Sites implements \ArrayAccess, DataInterface {
   public function offsetGet($offset) {
     if (isset($this->sites[$offset])) {
       if (!is_object($this->sites[$offset])) {
-        $this->sites[$offset] = $this->client->getSite($this->sites[$offset]);
+        $this->sites[$offset] = $this->dataSource->getSite($this->sites[$offset]);
       }
       return $this->sites[$offset];
     }

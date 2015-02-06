@@ -7,14 +7,14 @@
 namespace Acquia\Platform\Cloud\Hosting\Domain;
 
 
-use Acquia\Platform\Cloud\Api\ClientInterface;
+use Acquia\Platform\Cloud\Hosting\DataInterface;
 
 class Domain implements DomainInterface {
 
   /**
-   * @var \Acquia\Platform\Cloud\Api\ClientInterface
+   * @var \Acquia\Platform\Cloud\Hosting\DataInterface
    */
-  protected $client;
+  protected $dataSource;
 
   /**
    * @var string
@@ -31,8 +31,8 @@ class Domain implements DomainInterface {
    */
   protected $name;
 
-  public function __construct(ClientInterface $client, $site_id, $env, $name) {
-    $this->client = $client;
+  public function __construct(DataInterface $dataSource, $site_id, $env, $name) {
+    $this->dataSource = $dataSource;
     $this->siteId = $site_id;
     $this->env = $env;
     $this->name = $name;
@@ -51,11 +51,11 @@ class Domain implements DomainInterface {
   }
 
   public function delete() {
-    return $this->client->deleteDomain($this->getSiteId(), $this->getEnv(), $this->getName());
+    return $this->dataSource->deleteDomain($this->getSiteId(), $this->getEnv(), $this->getName());
   }
 
   public function purgeCache() {
-    return $this->client->purgeDomainCache($this->getSiteId(), $this->getEnv(), $this->getName());
+    return $this->dataSource->purgeDomainCache($this->getSiteId(), $this->getEnv(), $this->getName());
   }
 
   public function getData() {

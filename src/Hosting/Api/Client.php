@@ -4,11 +4,13 @@
  * Contains \Acquia\Platform\Cloud\Api\Client.
  */
 
-namespace Acquia\Platform\Cloud\Api;
+namespace Acquia\Platform\Cloud\Hosting\Api;
 
+use Acquia\Platform\Cloud\Common\FactoryInterface;
+use Acquia\Platform\Cloud\Hosting\DataInterface;
 use GuzzleHttp\Client as GuzzleClient;
 
-class Client implements ClientInterface {
+class Client implements DataInterface {
 
   /**
    * @var FactoryInterface
@@ -61,8 +63,8 @@ class Client implements ClientInterface {
    * @return object
    */
   protected function createObjectType($type, array $data = []) {
-    if (empty($data['client'])) {
-      $data['client'] = $this;
+    if (empty($data['dataSource'])) {
+      $data['dataSource'] = $this;
     }
     return $this->factory->createObjectType($type, $data);
   }

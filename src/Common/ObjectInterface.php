@@ -4,10 +4,10 @@
  * Contains DataInterface.php.
  */
 
-namespace Acquia\Platform\Cloud\Api;
+namespace Acquia\Platform\Cloud\Common;
 
 
-interface DataInterface {
+interface ObjectInterface {
 
   /**
    * @return array

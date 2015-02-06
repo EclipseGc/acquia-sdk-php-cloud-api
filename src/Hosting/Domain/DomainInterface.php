@@ -5,9 +5,9 @@
  */
 namespace Acquia\Platform\Cloud\Hosting\Domain;
 
-use Acquia\Platform\Cloud\Api\DataInterface;
+use Acquia\Platform\Cloud\Common\ObjectInterface;
 
-interface DomainInterface extends DataInterface {
+interface DomainInterface extends ObjectInterface {
   public function getName();
 
   public function delete();

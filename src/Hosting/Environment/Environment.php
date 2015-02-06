@@ -6,14 +6,14 @@
 
 namespace Acquia\Platform\Cloud\Hosting\Environment;
 
-use Acquia\Platform\Cloud\Api\ClientInterface;
+use Acquia\Platform\Cloud\Hosting\DataInterface;
 
 class Environment implements EnvironmentInterface {
 
   /**
-   * @var \Acquia\Platform\Cloud\Api\ClientInterface
+   * @var \Acquia\Platform\Cloud\Hosting\DataInterface
    */
-  protected $client;
+  protected $dataSource;
 
   /**
    * The site identifier.
@@ -64,8 +64,8 @@ class Environment implements EnvironmentInterface {
    */
   protected $livedev;
 
-  public function __construct(ClientInterface $client, $site_id, $name, $vcs_path, $ssh_host, $db_clusters, $default_domain, $livedev) {
-    $this->client = $client;
+  public function __construct(DataInterface $dataSource, $site_id, $name, $vcs_path, $ssh_host, $db_clusters, $default_domain, $livedev) {
+    $this->dataSource = $dataSource;
     $this->siteId = $site_id;
     $this->name = $name;
     $this->vcsPath = $vcs_path;
@@ -125,43 +125,43 @@ class Environment implements EnvironmentInterface {
   }
 
   public function getLogStream() {
-    return $this->client->getLogStream($this->getSiteId(), $this->getName());
+    return $this->dataSource->getLogStream($this->getSiteId(), $this->getName());
   }
 
   public function enableLiveDev() {
-    return $this->client->enableLiveDev($this->getSiteId(), $this->getName());
+    return $this->dataSource->enableLiveDev($this->getSiteId(), $this->getName());
   }
 
   public function disableLiveDev() {
-    return $this->client->disableLiveDev($this->getSiteId(), $this->getName());
+    return $this->dataSource->disableLiveDev($this->getSiteId(), $this->getName());
   }
 
   public function getServers() {
-    return $this->client->getServers($this->getSiteId(), $this->getName());
+    return $this->dataSource->getServers($this->getSiteId(), $this->getName());
   }
 
   public function getServer($name) {
-    return $this->client->getServer($this->getSiteId(), $this->getName(), $name);
+    return $this->dataSource->getServer($this->getSiteId(), $this->getName(), $name);
   }
 
   public function getDomains() {
-    return $this->client->getDomains($this->getSiteId(), $this->getName());
+    return $this->dataSource->getDomains($this->getSiteId(), $this->getName());
   }
 
   public function getDomain($domain) {
-    return $this->client->getDomain($this->getSiteId(), $this->getName(), $domain);
+    return $this->dataSource->getDomain($this->getSiteId(), $this->getName(), $domain);
   }
 
   public function createDomain($domain) {
-    return $this->client->createDomain($this->getSiteId(), $this->getName(), $domain);
+    return $this->dataSource->createDomain($this->getSiteId(), $this->getName(), $domain);
   }
 
   public function installFromSource($source_file) {
-    return $this->client->install($this->getSiteId(), $this->getName(), 'distro_url', $source_file);
+    return $this->dataSource->install($this->getSiteId(), $this->getName(), 'distro_url', $source_file);
   }
 
   public function installFromManifest($make_file) {
-    return $this->client->install($this->getSiteId(), $this->getName(), 'make_url', $make_file);
+    return $this->dataSource->install($this->getSiteId(), $this->getName(), 'make_url', $make_file);
   }
 
   public function getData() {

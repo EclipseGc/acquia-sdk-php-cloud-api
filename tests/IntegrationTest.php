@@ -7,8 +7,8 @@
 namespace Acquia\Platform\Cloud\Tests;
 
 
-use Acquia\Platform\Cloud\Api\Client;
-use Acquia\Platform\Cloud\Api\Factory;
+use Acquia\Platform\Cloud\Hosting\Api\Client;
+use Acquia\Platform\Cloud\Hosting\Factory;
 
 class IntegrationTest extends \PHPUnit_Framework_TestCase {
 

@@ -3,7 +3,7 @@
  * @file
  * Contains FactoryInterface.php.
  */
-namespace Acquia\Platform\Cloud\Api;
+namespace Acquia\Platform\Cloud\Common;
 
 interface FactoryInterface {
 

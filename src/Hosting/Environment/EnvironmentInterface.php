@@ -6,9 +6,9 @@
 
 namespace Acquia\Platform\Cloud\Hosting\Environment;
 
-use Acquia\Platform\Cloud\Api\DataInterface;
+use Acquia\Platform\Cloud\Common\ObjectInterface;
 
-interface EnvironmentInterface extends DataInterface {
+interface EnvironmentInterface extends ObjectInterface {
 
   /**
    * @return array

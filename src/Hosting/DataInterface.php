@@ -1,11 +1,11 @@
 <?php
 /**
  * @file
- * Contains ClienttInterface.php.
+ * Contains ClientInterface.php.
  */
-namespace Acquia\Platform\Cloud\Api;
+namespace Acquia\Platform\Cloud\Hosting;
 
-interface ClientInterface {
+interface DataInterface {
   /**
    * @return array
    */
