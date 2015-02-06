@@ -13,13 +13,19 @@ use GuzzleHttp\Client as GuzzleClient;
 class Client implements DataSourceInterface {
 
   /**
+   * @var DataSourceInterface
+   */
+  protected $delegator;
+
+  /**
    * @var FactoryInterface
    */
   protected $factory;
 
-  function __construct(GuzzleClient $client, FactoryInterface $factory) {
+  function __construct(GuzzleClient $client, FactoryInterface $factory, DataSourceInterface $delegator = null) {
     $this->client($client);
     $this->factory = $factory;
+    $this->delegator = $delegator;
   }
 
   /**
@@ -64,7 +70,7 @@ class Client implements DataSourceInterface {
    */
   protected function createObjectType($type, array $data = []) {
     if (empty($data['dataSource'])) {
-      $data['dataSource'] = $this;
+      $data['dataSource'] = $this->delegator ? $this->delegator : $this;
     }
     return $this->factory->createObjectType($type, $data);
   }
