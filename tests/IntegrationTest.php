@@ -4,7 +4,7 @@
  * Contains SitesTest.php.
  */
 
-namespace Acquia\Cloud\Api\Tests;
+namespace Acquia\Cloud\Tests;
 
 
 use Acquia\Cloud\Api\Client;

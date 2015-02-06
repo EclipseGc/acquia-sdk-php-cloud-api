@@ -4,7 +4,7 @@
  * Contains GuzzleTestResponse.php.
  */
 
-namespace Acquia\Cloud\Api\Tests;
+namespace Acquia\Cloud\Tests;
 
 use GuzzleHttp\Message\Response;
 

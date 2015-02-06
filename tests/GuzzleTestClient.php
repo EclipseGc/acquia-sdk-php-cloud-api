@@ -4,7 +4,7 @@
  * Contains GuzzleTestClient.php.
  */
 
-namespace Acquia\Cloud\Api\Tests;
+namespace Acquia\Cloud\Tests;
 
 
 use GuzzleHttp\Client;
