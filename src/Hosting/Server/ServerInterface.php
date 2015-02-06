@@ -3,7 +3,7 @@
  * @file
  * Contains ServerInterface.php.
  */
-namespace Acquia\Platform\Cloud\Api\SDK\Server;
+namespace Acquia\Platform\Cloud\Hosting\Server;
 
 use Acquia\Platform\Cloud\Api\DataInterface;
 

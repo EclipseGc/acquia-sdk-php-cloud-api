@@ -4,7 +4,7 @@
  * Contains SiteInterface.php.
  */
 
-namespace Acquia\Platform\Cloud\Api\SDK;
+namespace Acquia\Platform\Cloud\Hosting\Site;
 
 
 use Acquia\Platform\Cloud\Api\DataInterface;
@@ -44,7 +44,7 @@ interface SiteInterface extends DataInterface {
   /**
    * Get all tasks for this site.
    *
-   * @return \Acquia\Platform\Cloud\Api\SDK\Task\TaskInterface[]
+   * @return \Acquia\Platform\Cloud\Hosting\Task\TaskInterface[]
    */
   public function getTasks();
 
@@ -54,14 +54,14 @@ interface SiteInterface extends DataInterface {
    * @param int $id
    *   The task id you wish to retrieve.
    *
-   * @return \Acquia\Platform\Cloud\Api\SDK\Task\TaskInterface
+   * @return \Acquia\Platform\Cloud\Hosting\Task\TaskInterface
    */
   public function getTask($id);
 
   /**
    * Get all available environments for this site.
    *
-   * @return \Acquia\Platform\Cloud\Api\SDK\Environment\EnvironmentInterface[]
+   * @return \Acquia\Platform\Cloud\Hosting\Environment\EnvironmentInterface[]
    */
   public function getEnvs();
 
@@ -71,7 +71,7 @@ interface SiteInterface extends DataInterface {
    * @param string $name
    *   The name of the environment you wish to load.
    *
-   * @return \Acquia\Platform\Cloud\Api\SDK\Environment\EnvironmentInterface
+   * @return \Acquia\Platform\Cloud\Hosting\Environment\EnvironmentInterface
    */
   public function getEnv($name);
 

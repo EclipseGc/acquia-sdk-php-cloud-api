@@ -1,10 +1,10 @@
 <?php
 /**
  * @file
- * Contains \Acquia\Platform\Cloud\Api\SDK\Task\TaskInterface.
+ * Contains \Acquia\Platform\Cloud\Hosting\Task\TaskInterface.
  */
 
-namespace Acquia\Platform\Cloud\Api\SDK\Task;
+namespace Acquia\Platform\Cloud\Hosting\Task;
 
 
 use Acquia\Platform\Cloud\Api\DataInterface;

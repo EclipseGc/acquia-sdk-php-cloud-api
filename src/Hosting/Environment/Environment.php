@@ -4,7 +4,7 @@
  * Contains Environment.php.
  */
 
-namespace Acquia\Platform\Cloud\Api\SDK\Environment;
+namespace Acquia\Platform\Cloud\Hosting\Environment;
 
 use Acquia\Platform\Cloud\Api\ClientInterface;
 

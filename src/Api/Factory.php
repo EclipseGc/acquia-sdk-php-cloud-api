@@ -9,12 +9,12 @@ namespace Acquia\Platform\Cloud\Api;
 class Factory implements FactoryInterface {
 
   protected $objectTypes = array(
-    'sites' => '\Acquia\Platform\Cloud\Api\SDK\Sites',
-    'site' => '\Acquia\Platform\Cloud\Api\SDK\Site',
-    'task' => '\Acquia\Platform\Cloud\Api\SDK\Task\Task',
-    'envs' => '\Acquia\Platform\Cloud\Api\SDK\Environment\Environment',
-    'server' => '\Acquia\Platform\Cloud\Api\SDK\Server\Server',
-    'domain' => '\Acquia\Platform\Cloud\Api\SDK\Domain\Domain',
+    'sites' => '\Acquia\Platform\Cloud\Hosting\Site\Sites',
+    'site' => '\Acquia\Platform\Cloud\Hosting\Site\Site',
+    'task' => '\Acquia\Platform\Cloud\Hosting\Task\Task',
+    'envs' => '\Acquia\Platform\Cloud\Hosting\Environment\Environment',
+    'server' => '\Acquia\Platform\Cloud\Hosting\Server\Server',
+    'domain' => '\Acquia\Platform\Cloud\Hosting\Domain\Domain',
   );
 
   public function getObjectTypeClass($type) {

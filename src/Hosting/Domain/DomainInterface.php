@@ -3,7 +3,7 @@
  * @file
  * Contains DomainInterface.php.
  */
-namespace Acquia\Platform\Cloud\Api\SDK\Domain;
+namespace Acquia\Platform\Cloud\Hosting\Domain;
 
 use Acquia\Platform\Cloud\Api\DataInterface;
 

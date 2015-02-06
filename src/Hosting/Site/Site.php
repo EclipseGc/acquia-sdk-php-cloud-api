@@ -4,7 +4,7 @@
  * Contains Site.php.
  */
 
-namespace Acquia\Platform\Cloud\Api\SDK;
+namespace Acquia\Platform\Cloud\Hosting\Site;
 
 use Acquia\Platform\Cloud\Api\ClientInterface;
 

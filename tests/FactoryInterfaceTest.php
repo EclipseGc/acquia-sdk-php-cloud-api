@@ -6,9 +6,9 @@
 
 namespace Acquia\Platform\Cloud\Tests;
 
-use Acquia\Platform\Cloud\Api\SDK\Environment\Environment;
-use Acquia\Platform\Cloud\Api\SDK\Site;
-use Acquia\Platform\Cloud\Api\SDK\Sites;
+use Acquia\Platform\Cloud\Hosting\Environment\Environment;
+use Acquia\Platform\Cloud\Hosting\Site\Site;
+use Acquia\Platform\Cloud\Hosting\Site\Sites;
 
 class FactoryInterfaceTest extends \PHPUnit_Framework_TestCase {
 
@@ -29,7 +29,7 @@ class FactoryInterfaceTest extends \PHPUnit_Framework_TestCase {
   }
 
   /**
-   * @covers \Acquia\Platform\Cloud\Api\SDK\Sites::offsetGet
+   * @covers \Acquia\Platform\Cloud\Hosting\Sites::offsetGet
    */
   public function testSites() {
     $client = $this->getMockBuilder('\Acquia\Platform\Cloud\Api\ClientInterface')
@@ -46,10 +46,10 @@ class FactoryInterfaceTest extends \PHPUnit_Framework_TestCase {
   }
 
   /**
-   * @covers \Acquia\Platform\Cloud\Api\SDK\Site::getEnvs
-   * @covers \Acquia\Platform\Cloud\Api\SDK\Site::getEnv
-   * @covers \Acquia\Platform\Cloud\Api\SDK\Site::getTasks
-   * @covers \Acquia\Platform\Cloud\Api\SDK\Site::getTask
+   * @covers \Acquia\Platform\Cloud\Hosting\Site\Site::getEnvs
+   * @covers \Acquia\Platform\Cloud\Hosting\Site\Site::getEnv
+   * @covers \Acquia\Platform\Cloud\Hosting\Site\Site::getTasks
+   * @covers \Acquia\Platform\Cloud\Hosting\Site\Site::getTask
    */
   public function testSite() {
     // Setup Site value object requirements.
@@ -83,9 +83,9 @@ class FactoryInterfaceTest extends \PHPUnit_Framework_TestCase {
   }
 
   /**
-   * @covers \Acquia\Platform\Cloud\Api\SDK\Envs\Envs::getServers
-   * @covers \Acquia\Platform\Cloud\Api\SDK\Envs\Envs::getServer
-   * @covers \Acquia\Platform\Cloud\Api\SDK\Envs\Envs::getLogStream
+   * @covers \Acquia\Platform\Cloud\Hosting\Envs\Envs::getServers
+   * @covers \Acquia\Platform\Cloud\Hosting\Envs\Envs::getServer
+   * @covers \Acquia\Platform\Cloud\Hosting\Envs\Envs::getLogStream
    */
   public function testEnv() {
     // Setup Environment value object requirements.

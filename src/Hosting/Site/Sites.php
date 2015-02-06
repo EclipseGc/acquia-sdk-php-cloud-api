@@ -4,10 +4,10 @@
  * Contains Sites.php.
  */
 
-namespace Acquia\Platform\Cloud\Api\SDK;
+namespace Acquia\Platform\Cloud\Hosting\Site;
 
-use Acquia\Platform\Cloud\Api\DataInterface;
 use Acquia\Platform\Cloud\Api\ClientInterface;
+use Acquia\Platform\Cloud\Api\DataInterface;
 
 class Sites implements \ArrayAccess, DataInterface {
 
@@ -43,7 +43,7 @@ class Sites implements \ArrayAccess, DataInterface {
    * Implements \ArrayAccess::offsetGet().
    *
    * @param mixed $offset
-   * @return NULL|\Acquia\Platform\Cloud\Api\SDK\SiteInterface
+   * @return NULL|\Acquia\Platform\Cloud\Hosting\Site\SiteInterface
    */
   public function offsetGet($offset) {
     if (isset($this->sites[$offset])) {
@@ -60,10 +60,10 @@ class Sites implements \ArrayAccess, DataInterface {
    */
   public function offsetSet($offset, $value) {
     if (isset($this->sites[$offset])) {
-      if ($value instanceof \Acquia\Platform\Cloud\Api\SDK\SiteInterface) {
+      if ($value instanceof \Acquia\Platform\Cloud\Hosting\Site\SiteInterface) {
         $this->sites[$offset] = $value;
       }
-      throw new \Exception('Setting site values is only allowed using a instance of a \Acquia\Platform\Cloud\Api\SDK\SiteInterface object.');
+      throw new \Exception('Setting site values is only allowed using a instance of a \Acquia\Platform\Cloud\Hosting\SiteInterface object.');
     }
     // @todo throw a custom exception
     throw new \Exception('You cannot manually add or change sites.');
