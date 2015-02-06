@@ -1,16 +1,16 @@
 <?php
 /**
  * @file
- * Contains \Acquia\Platform\Cloud\Api\Client.
+ * Contains \Acquia\Platform\Cloud\Hosting\Api\Client.
  */
 
 namespace Acquia\Platform\Cloud\Hosting\Api;
 
 use Acquia\Platform\Cloud\Common\FactoryInterface;
-use Acquia\Platform\Cloud\Hosting\DataInterface;
+use Acquia\Platform\Cloud\Hosting\DataSourceInterface;
 use GuzzleHttp\Client as GuzzleClient;
 
-class Client implements DataInterface {
+class Client implements DataSourceInterface {
 
   /**
    * @var FactoryInterface

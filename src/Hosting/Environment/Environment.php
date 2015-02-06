@@ -6,12 +6,12 @@
 
 namespace Acquia\Platform\Cloud\Hosting\Environment;
 
-use Acquia\Platform\Cloud\Hosting\DataInterface;
+use Acquia\Platform\Cloud\Hosting\DataSourceInterface;
 
 class Environment implements EnvironmentInterface {
 
   /**
-   * @var \Acquia\Platform\Cloud\Hosting\DataInterface
+   * @var \Acquia\Platform\Cloud\Hosting\DataSourceInterface
    */
   protected $dataSource;
 
@@ -64,7 +64,7 @@ class Environment implements EnvironmentInterface {
    */
   protected $livedev;
 
-  public function __construct(DataInterface $dataSource, $site_id, $name, $vcs_path, $ssh_host, $db_clusters, $default_domain, $livedev) {
+  public function __construct(DataSourceInterface $dataSource, $site_id, $name, $vcs_path, $ssh_host, $db_clusters, $default_domain, $livedev) {
     $this->dataSource = $dataSource;
     $this->siteId = $site_id;
     $this->name = $name;

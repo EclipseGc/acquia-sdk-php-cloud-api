@@ -1,11 +1,11 @@
 <?php
 /**
  * @file
- * Contains ClientInterface.php.
+ * Contains DataSourceInterface.php.
  */
 namespace Acquia\Platform\Cloud\Hosting;
 
-interface DataInterface {
+interface DataSourceInterface {
   /**
    * @return array
    */

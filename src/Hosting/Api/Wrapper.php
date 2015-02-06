@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * Contains \Acquia\Platform\Cloud\API\Client.
+ * Contains \Acquia\Platform\Cloud\Hosting\Api\Wrapper.
  */
 
 namespace Acquia\Platform\Cloud\Hosting\Api;
@@ -17,7 +17,7 @@ class Wrapper {
   /**
    * @param $user
    * @param $pass
-   * @return \Acquia\Platform\Cloud\Hosting\DataInterface
+   * @return \Acquia\Platform\Cloud\Hosting\DataSourceInterface
    */
   public static function create($user, $pass) {
     $config = [

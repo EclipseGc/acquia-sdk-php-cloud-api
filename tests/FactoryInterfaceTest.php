@@ -17,8 +17,8 @@ class FactoryInterfaceTest extends \PHPUnit_Framework_TestCase {
    * @covers \Acquia\Platform\Cloud\Hosting\Api\Client::getAliases
    */
   public function testClient() {
-    /** @var $dataSource \Acquia\Platform\Cloud\Hosting\DataInterface */
-    $dataSource = $this->getMockBuilder('\Acquia\Platform\Cloud\Hosting\DataInterface')
+    /** @var $dataSource \Acquia\Platform\Cloud\Hosting\DataSourceInterface */
+    $dataSource = $this->getMockBuilder('\Acquia\Platform\Cloud\Hosting\DataSourceInterface')
       ->getMock();
     $dataSource->expects($this->once())
       ->method('getSites');
@@ -32,7 +32,7 @@ class FactoryInterfaceTest extends \PHPUnit_Framework_TestCase {
    * @covers \Acquia\Platform\Cloud\Hosting\Sites\Sites::offsetGet
    */
   public function testSites() {
-    $dataSource = $this->getMockBuilder('\Acquia\Platform\Cloud\Hosting\DataInterface')
+    $dataSource = $this->getMockBuilder('\Acquia\Platform\Cloud\Hosting\DataSourceInterface')
       ->getMock();
     $dataSource->expects($this->exactly(2))
       ->method('getSite')
@@ -60,7 +60,7 @@ class FactoryInterfaceTest extends \PHPUnit_Framework_TestCase {
     $vcs_type = 'git';
     $vcs_url = 'test0@svn-test.devcloud.hosting.acquia.com:test0.git';
     // Mock factory for Site object.
-    $dataSource = $this->getMockBuilder('\Acquia\Platform\Cloud\Hosting\DataInterface')
+    $dataSource = $this->getMockBuilder('\Acquia\Platform\Cloud\Hosting\DataSourceInterface')
       ->getMock();
     $dataSource->expects($this->once())
       ->method('getEnvs')
@@ -83,9 +83,9 @@ class FactoryInterfaceTest extends \PHPUnit_Framework_TestCase {
   }
 
   /**
-   * @covers \Acquia\Platform\Cloud\Hosting\Envs\Envs::getServers
-   * @covers \Acquia\Platform\Cloud\Hosting\Envs\Envs::getServer
-   * @covers \Acquia\Platform\Cloud\Hosting\Envs\Envs::getLogStream
+   * @covers \Acquia\Platform\Cloud\Hosting\Environment\Environment::getServers
+   * @covers \Acquia\Platform\Cloud\Hosting\Environment\Environment::getServer
+   * @covers \Acquia\Platform\Cloud\Hosting\Environment\Environment::getLogStream
    */
   public function testEnv() {
     // Setup Environment value object requirements.
@@ -96,7 +96,7 @@ class FactoryInterfaceTest extends \PHPUnit_Framework_TestCase {
     $db_clusters = [1111];
     $default_domain = 'myfakeunittestsite.devcloud.hosting.acquia.com';
     $livedev = 'disabled';
-    $dataSource = $this->getMockBuilder('\Acquia\Platform\Cloud\Hosting\DataInterface')
+    $dataSource = $this->getMockBuilder('\Acquia\Platform\Cloud\Hosting\DataSourceInterface')
       ->getMock();
     $dataSource->expects($this->once())
       ->method('getServers')

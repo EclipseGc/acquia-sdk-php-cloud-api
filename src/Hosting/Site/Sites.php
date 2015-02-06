@@ -7,7 +7,7 @@
 namespace Acquia\Platform\Cloud\Hosting\Site;
 
 use Acquia\Platform\Cloud\Common\ObjectInterface;
-use Acquia\Platform\Cloud\Hosting\DataInterface;
+use Acquia\Platform\Cloud\Hosting\DataSourceInterface;
 
 class Sites implements \ArrayAccess, ObjectInterface {
 
@@ -19,15 +19,15 @@ class Sites implements \ArrayAccess, ObjectInterface {
   protected $sites;
 
   /**
-   * @var \Acquia\Platform\Cloud\Hosting\DataInterface
+   * @var \Acquia\Platform\Cloud\Hosting\DataSourceInterface
    */
   protected $dataSource;
 
   /**
-   * @param \Acquia\Platform\Cloud\Hosting\DataInterface $dataSource
+   * @param \Acquia\Platform\Cloud\Hosting\DataSourceInterface $dataSource
    * @param array $sites
    */
-  public function __construct(DataInterface $dataSource, array $sites) {
+  public function __construct(DataSourceInterface $dataSource, array $sites) {
     $this->dataSource = $dataSource;
     $this->sites = $sites;
   }

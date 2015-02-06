@@ -6,12 +6,12 @@
 
 namespace Acquia\Platform\Cloud\Hosting\Site;
 
-use Acquia\Platform\Cloud\Hosting\DataInterface;
+use Acquia\Platform\Cloud\Hosting\DataSourceInterface;
 
 class Site implements SiteInterface {
 
   /**
-   * @var \Acquia\Platform\Cloud\Hosting\DataInterface
+   * @var \Acquia\Platform\Cloud\Hosting\DataSourceInterface
    */
   protected $dataSource;
 
@@ -45,7 +45,7 @@ class Site implements SiteInterface {
    */
   protected $vcsUrl;
 
-  function __construct(DataInterface $dataSource, $title, $name, $production_mode, $unix_username, $vcs_type, $vcs_url) {
+  function __construct(DataSourceInterface $dataSource, $title, $name, $production_mode, $unix_username, $vcs_type, $vcs_url) {
     $this->dataSource = $dataSource;
     $this->title = $title;
     $this->name = $name;

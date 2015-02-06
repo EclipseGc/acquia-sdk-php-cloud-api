@@ -7,12 +7,12 @@
 namespace Acquia\Platform\Cloud\Hosting\Domain;
 
 
-use Acquia\Platform\Cloud\Hosting\DataInterface;
+use Acquia\Platform\Cloud\Hosting\DataSourceInterface;
 
 class Domain implements DomainInterface {
 
   /**
-   * @var \Acquia\Platform\Cloud\Hosting\DataInterface
+   * @var \Acquia\Platform\Cloud\Hosting\DataSourceInterface
    */
   protected $dataSource;
 
@@ -31,7 +31,7 @@ class Domain implements DomainInterface {
    */
   protected $name;
 
-  public function __construct(DataInterface $dataSource, $site_id, $env, $name) {
+  public function __construct(DataSourceInterface $dataSource, $site_id, $env, $name) {
     $this->dataSource = $dataSource;
     $this->siteId = $site_id;
     $this->env = $env;

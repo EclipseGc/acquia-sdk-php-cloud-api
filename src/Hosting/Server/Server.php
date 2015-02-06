@@ -7,12 +7,12 @@
 namespace Acquia\Platform\Cloud\Hosting\Server;
 
 
-use Acquia\Platform\Cloud\Hosting\DataInterface;
+use Acquia\Platform\Cloud\Hosting\DataSourceInterface;
 
 class Server implements ServerInterface {
 
   /**
-   * @var \Acquia\Platform\Cloud\Hosting\DataInterface
+   * @var \Acquia\Platform\Cloud\Hosting\DataSourceInterface
    */
   protected $dataSource;
 
@@ -89,7 +89,7 @@ class Server implements ServerInterface {
     'ec2_availability_zone',
   );
 
-  function __construct(DataInterface $dataSource, $site_id, $env, $name, $fqdn, $services, $ami_type, $ec2_region, $ec2_availability_zone) {
+  function __construct(DataSourceInterface $dataSource, $site_id, $env, $name, $fqdn, $services, $ami_type, $ec2_region, $ec2_availability_zone) {
     $this->dataSource = $dataSource;
     $this->siteId = $site_id;
     $this->env = $env;

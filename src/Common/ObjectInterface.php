@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * Contains DataInterface.php.
+ * Contains ObjectInterface.php.
  */
 
 namespace Acquia\Platform\Cloud\Common;
