@@ -17,8 +17,13 @@ class Client implements DataSourceInterface {
    */
   protected $factory;
 
+  /**
+   * @var GuzzleClient
+   */
+  protected $guzzleClient;
+
   function __construct(GuzzleClient $client, FactoryInterface $factory) {
-    $this->client($client);
+    $this->guzzleClient = $client;
     $this->factory = $factory;
   }
 
@@ -29,7 +34,7 @@ class Client implements DataSourceInterface {
    * @return \GuzzleHttp\Message\ResponseInterface
    */
   protected function request($url, array $options = []) {
-    $request = $this->client()->get($url, $options);
+    $request = $this->guzzleClient->get($url, $options);
     if (!is_object($request)) {
       var_export($request);
     }
@@ -37,24 +42,6 @@ class Client implements DataSourceInterface {
       throw new \Exception(sprintf('Status code was not OK. %d returned instead.', $request->getStatusCode()));
     }
     return $request;
-  }
-
-  /**
-   * Statically stores and returns a guzzle client.
-   *
-   * The Guzzle client is quite large and we really don't want to deal with it
-   * during debugging, so we store it statically in a method to hide it away.
-   *
-   * @param \GuzzleHttp\Client $new_client
-   *
-   * @return \GuzzleHttp\Client
-   */
-  protected function client(GuzzleClient $new_client = NULL) {
-    static $client;
-    if (!is_null($new_client)) {
-      $client = $new_client;
-    }
-    return $client;
   }
 
   /**
@@ -143,7 +130,7 @@ class Client implements DataSourceInterface {
   public function enableLiveDev($site_id, $name) {
     // @todo the livedev param appears to always be disabled. Need to figure
     // out why so we can appropriately check before just firing a new task.
-    $data = $this->client()->post(['sites/{site}/envs/{env}/livedev/enable.json', ['site' => $site_id, 'env' => $name]])->json();
+    $data = $this->guzzleClient->post(['sites/{site}/envs/{env}/livedev/enable.json', ['site' => $site_id, 'env' => $name]])->json();
     $data['site_id'] = $site_id;
     return $this->createObjectType('task', $data);
   }
@@ -151,7 +138,7 @@ class Client implements DataSourceInterface {
   public function disableLiveDev($site_id, $name) {
     // @todo the livedev param appears to always be disabled. Need to figure
     // out why so we can appropriately check before just firing a new task.
-    $data = $this->client()->post(['sites/{site}/envs/{env}/livedev/disable.json', ['site' => $site_id, 'env' => $name]])->json();
+    $data = $this->guzzleClient->post(['sites/{site}/envs/{env}/livedev/disable.json', ['site' => $site_id, 'env' => $name]])->json();
     $data['site_id'] = $site_id;
     return $this->createObjectType('task', $data);
   }
@@ -211,19 +198,19 @@ class Client implements DataSourceInterface {
   }
 
   public function createDomain($site_id, $env, $domain) {
-    $data = $this->client()->post(['sites/{site}/envs/{env}/domains/{domain}.json', ['site' => $site_id, 'env' => $env, 'domain' => $domain]])->json();
+    $data = $this->guzzleClient->post(['sites/{site}/envs/{env}/domains/{domain}.json', ['site' => $site_id, 'env' => $env, 'domain' => $domain]])->json();
     $data['site_id'] = $site_id;
     return $this->createObjectType('task', $data);
   }
 
   public function deleteDomain($site_id, $env, $domain) {
-    $data = $this->client()->delete(['sites/{site}/envs/{env}/domains/{domain}.json', ['site' => $site_id, 'env' => $env, 'domain' => $domain]])->json();
+    $data = $this->guzzleClient->delete(['sites/{site}/envs/{env}/domains/{domain}.json', ['site' => $site_id, 'env' => $env, 'domain' => $domain]])->json();
     $data['site_id'] = $site_id;
     return $this->createObjectType('task', $data);
   }
 
   public function purgeDomainCache($site_id, $env, $domain) {
-    $data = $this->client()->delete(['sites/{site}/envs/{env}/domains/{domain}/cache.json', ['site' => $site_id, 'env' => $env, 'domain' => $domain]])->json();
+    $data = $this->guzzleClient->delete(['sites/{site}/envs/{env}/domains/{domain}/cache.json', ['site' => $site_id, 'env' => $env, 'domain' => $domain]])->json();
     $data['site_id'] = $site_id;
     return $this->createObjectType('task', $data);
   }
@@ -237,7 +224,7 @@ class Client implements DataSourceInterface {
         'source' => $source,
       ],
     ];
-    $data = $this->client()->post(['sites/{site}/envs/{env}/install/{type}.json', ['site' => $site_id, 'env' => $env, 'type' => $type]], $options)->json();
+    $data = $this->guzzleClient->post(['sites/{site}/envs/{env}/install/{type}.json', ['site' => $site_id, 'env' => $env, 'type' => $type]], $options)->json();
     $data['site_id'] = $site_id;
     return $this->createObjectType('task', $data);
   }
